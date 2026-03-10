@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - TechStore</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-screen" class="login-container">
+    <div class="login-box">
+      <div class="login-header">
+        <div class="login-icon">🔐</div>
+        <h1>TechStore Admin</h1>
+        <p>Accedi per gestire i prodotti</p>
+      </div>
+      <form id="login-form">
+        <div class="mb-3">
+          <label for="admin-password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="admin-password" required placeholder="Inserisci la password">
+        </div>
+        <div class="mb-3 d-none" id="admin-password-confirm-group">
+          <label for="admin-password-confirm" class="form-label">Conferma Password</label>
+          <input type="password" class="form-control" id="admin-password-confirm" placeholder="Ripeti la password">
+        </div>
+        <p class="text-muted small mb-3" id="admin-login-hint">Accesso riservato all'amministratore.</p>
+        <div id="login-error" class="alert alert-danger d-none"></div>
+        <button type="submit" class="btn btn-primary w-100">Accedi</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard -->
+  <div id="admin-dashboard" class="admin-container d-none">
+    <!-- Header -->
+    <header class="admin-header">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-outline-secondary d-lg-none" id="sidebar-toggle">
+              <span>☰</span>
+            </button>
+            <h1 class="admin-title">📦 Gestione Prodotti</h1>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-muted">Admin</span>
+            <button class="btn btn-outline-danger btn-sm" id="logout-btn">Esci</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="admin-main">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar" id="sidebar">
+        <nav class="sidebar-nav">
+          <a href="#" class="sidebar-link active" data-view="products">
+            <span>📋</span> Prodotti
+          </a>
+          <a href="#" class="sidebar-link" data-view="add">
+            <span>➕</span> Aggiungi Prodotto
+          </a>
+          <hr>
+          <a href="index.html" class="sidebar-link">
+            <span>🏠</span> Torna al Sito
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <main class="admin-content">
+        <!-- Vista Prodotti -->
+        <section id="view-products" class="admin-view">
+          <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-4">
+            <h2>Lista Prodotti</h2>
+            <div class="d-flex gap-2">
+              <select id="filter-category" class="form-select" style="width: auto;">
+                <option value="">Tutte le categorie</option>
+                <option value="televisori">Televisori</option>
+                <option value="smartphone">Smartphone</option>
+                <option value="tablet">Tablet</option>
+                <option value="notebook">Notebook</option>
+                <option value="audio">Audio</option>
+                <option value="smart-home">Smart Home</option>
+              </select>
+              <button class="btn btn-success" id="add-product-btn">
+                <span>➕</span> Nuovo Prodotto
+              </button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Immagine</th>
+                  <th>Nome</th>
+                  <th>Marca</th>
+                  <th>Categoria</th>
+                  <th>Prezzo</th>
+                  <th>Stock</th>
+                  <th>Azioni</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- Prodotti caricati dinamicamente -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="no-products" class="text-center py-5 d-none">
+            <div style="font-size: 4rem;">📭</div>
+            <h3>Nessun prodotto trovato</h3>
+          </div>
+        </section>
+
+        <!-- Vista Modulo -->
+        <section id="view-form" class="admin-view d-none">
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <button class="btn btn-outline-secondary" id="back-to-list">
+              ← Torna alla lista
+            </button>
+            <h2 id="form-title">Nuovo Prodotto</h2>
+          </div>
+
+          <form id="product-form" class="admin-form">
+            <input type="hidden" id="product-id">
+
+            <div class="row g-3">
+              <!-- Informazioni base -->
+              <div class="col-12">
+                <h4 class="form-section-title">Informazioni Base</h4>
+              </div>
+
+              <div class="col-md-6">
+                <label for="product-name" class="form-label">Nome Prodotto *</label>
+                <input type="text" class="form-control" id="product-name" required>
+              </div>
+
+              <div class="col-md-3">
+                <label for="product-brand" class="form-label">Marca *</label>
+                <input type="text" class="form-control" id="product-brand" required list="brands-list">
+                <datalist id="brands-list">
+                  <option value="Apple">
+                  <option value="Samsung">
+                  <option value="Sony">
+                  <option value="LG">
+                  <option value="Xiaomi">
+                  <option value="Google">
+                  <option value="OnePlus">
+                  <option value="Lenovo">
+                  <option value="Dell">
+                  <option value="HP">
+                  <option value="ASUS">
+                  <option value="Bose">
+                  <option value="JBL">
+                  <option value="Amazon">
+                  <option value="Philips">
+                  <option value="TP-Link">
+                  <option value="TCL">
+                </datalist>
+              </div>
+
+              <div class="col-md-3">
+                <label for="product-category" class="form-label">Categoria *</label>
+                <select class="form-select" id="product-category" required>
+                  <option value="">Seleziona...</option>
+                  <option value="televisori">Televisori</option>
+                  <option value="smartphone">Smartphone</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="notebook">Notebook</option>
+                  <option value="audio">Audio</option>
+                  <option value="smart-home">Smart Home</option>
+                </select>
+              </div>
+
+              <div class="col-12">
+                <label for="product-description" class="form-label">Descrizione</label>
+                <textarea class="form-control" id="product-description" rows="3"></textarea>
+              </div>
+
+              <!-- Prezzo -->
+              <div class="col-12 mt-4">
+                <h4 class="form-section-title">Prezzo</h4>
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-price" class="form-label">Prezzo (€) *</label>
+                <input type="number" class="form-control" id="product-price" step="0.01" min="0" required>
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-original-price" class="form-label">Prezzo Originale (€)</label>
+                <input type="number" class="form-control" id="product-original-price" step="0.01" min="0">
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-discount" class="form-label">Sconto (%)</label>
+                <input type="number" class="form-control" id="product-discount" min="0" max="100" value="0">
+              </div>
+
+              <!-- Immagine -->
+              <div class="col-12 mt-4">
+                <h4 class="form-section-title">Immagine</h4>
+              </div>
+
+              <!-- Toggle Tipo Immagine -->
+              <div class="col-12">
+                <div class="btn-group image-source-toggle" role="group">
+                  <input type="radio" class="btn-check" name="imageSource" id="image-source-url" value="url" checked>
+                  <label class="btn btn-outline-primary" for="image-source-url">URL</label>
+                  <input type="radio" class="btn-check" name="imageSource" id="image-source-upload" value="upload">
+                  <label class="btn btn-outline-primary" for="image-source-upload">Carica File</label>
+                </div>
+              </div>
+
+              <!-- Input URL -->
+              <div class="col-md-8" id="url-input-group">
+                <label for="product-image" class="form-label">URL Immagine</label>
+                <input type="text" class="form-control" id="product-image" placeholder="assets/images/products/...">
+              </div>
+
+              <!-- Input File -->
+              <div class="col-md-8 d-none" id="file-input-group">
+                <label for="product-image-file" class="form-label">Carica Immagine</label>
+                <input type="file" class="form-control" id="product-image-file" accept="image/*">
+                <small class="text-muted">L'immagine sarà salvata nel browser (max 5MB consigliato)</small>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label">Anteprima</label>
+                <div class="image-preview" id="image-preview">
+                  <span>📷</span>
+                </div>
+              </div>
+
+              <!-- Valutazione -->
+              <div class="col-12 mt-4">
+                <h4 class="form-section-title">Valutazione</h4>
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-rating" class="form-label">Rating (0-5)</label>
+                <input type="number" class="form-control" id="product-rating" min="0" max="5" step="0.1" value="0">
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-reviews" class="form-label">Numero Recensioni</label>
+                <input type="number" class="form-control" id="product-reviews" min="0" value="0">
+              </div>
+
+              <!-- Inventario -->
+              <div class="col-12 mt-4">
+                <h4 class="form-section-title">Inventario</h4>
+              </div>
+
+              <div class="col-md-4">
+                <label for="product-stock" class="form-label">Quantità Stock</label>
+                <input type="number" class="form-control" id="product-stock" min="0" value="0">
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check form-switch mt-4">
+                  <input class="form-check-input" type="checkbox" id="product-instock">
+                  <label class="form-check-label" for="product-instock">Disponibile</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check form-switch mt-4">
+                  <input class="form-check-input" type="checkbox" id="product-featured">
+                  <label class="form-check-label" for="product-featured">In Evidenza</label>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="form-check form-switch mt-4">
+                  <input class="form-check-input" type="checkbox" id="product-new">
+                  <label class="form-check-label" for="product-new">Nuovo</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-actions mt-4">
+              <button type="button" class="btn btn-secondary" id="cancel-form">Annulla</button>
+              <button type="submit" class="btn btn-primary" id="save-product">Salva Prodotto</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Conferma Eliminazione -->
+  <div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Conferma Eliminazione</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Sei sicuro di voler eliminare il prodotto <strong id="delete-product-name"></strong>?</p>
+          <p class="text-danger">Questa azione non può essere annullata.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete">Elimina</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

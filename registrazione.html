@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrati | TechStore - Crea il tuo Account</title>
+  <meta name="description" content="Crea il tuo account TechStore per acquistare online, tracciare i tuoi ordini e accedere a offerte esclusive.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    .hero-register {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-blue) 100%);
+      color: white;
+      padding: var(--spacing-xxl) 0;
+      text-align: center;
+    }
+    .hero-register h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: var(--spacing-md); }
+    .hero-register p { font-size: 1.25rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+    .register-section { padding: var(--spacing-xxl) 0; background: var(--bg-light); }
+    .register-card {
+      background: var(--bg-white);
+      padding: var(--spacing-xl);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .benefits-section {
+      background: var(--bg-white);
+      padding: var(--spacing-xl) 0;
+    }
+    .benefit-item {
+      text-align: center;
+      padding: var(--spacing-lg);
+    }
+    .benefit-icon {
+      font-size: 2.5rem;
+      margin-bottom: var(--spacing-md);
+      display: block;
+    }
+    .benefit-item h5 { color: var(--text-dark); margin-bottom: var(--spacing-sm); }
+    .benefit-item p { color: var(--text-muted); margin: 0; font-size: 0.9rem; }
+
+    .form-label { font-weight: 600; color: var(--text-dark); }
+    .form-control, .form-select {
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      transition: border-color var(--transition-fast);
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-blue);
+      box-shadow: none;
+    }
+    .form-control.is-invalid {
+      border-color: var(--danger-red);
+    }
+    .invalid-feedback {
+      color: var(--danger-red);
+      font-size: 0.875rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    .form-control.is-invalid + .invalid-feedback {
+      display: block;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      padding: 0;
+      font-size: 1.25rem;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-strength {
+      height: 4px;
+      background: var(--border-color);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+    .password-strength-bar {
+      height: 100%;
+      width: 0;
+      transition: all 0.3s ease;
+    }
+    .strength-weak { width: 33%; background: var(--danger-red); }
+    .strength-medium { width: 66%; background: #f59e0b; }
+    .strength-strong { width: 100%; background: #10b981; }
+
+    .checkbox-custom {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    .checkbox-custom input {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+    }
+    .checkbox-custom label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    .checkbox-custom label a {
+      color: var(--primary-blue);
+      text-decoration: none;
+    }
+    .checkbox-custom label a:hover {
+      text-decoration: underline;
+    }
+
+    .btn-register {
+      background: var(--primary-blue);
+      color: white;
+      border: none;
+      padding: var(--spacing-md) var(--spacing-xl);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 100%;
+      transition: all var(--transition-fast);
+    }
+    .btn-register:hover {
+      background: #0a52d4;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(11, 99, 246, 0.3);
+    }
+    .btn-register:disabled {
+      background: var(--text-muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: var(--spacing-lg);
+      color: var(--text-muted);
+    }
+    .login-link a {
+      color: var(--primary-blue);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: var(--spacing-lg) 0;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .divider span {
+      padding: 0 var(--spacing-md);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    .social-login {
+      display: flex;
+      gap: var(--spacing-md);
+    }
+    .social-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: var(--spacing-md);
+      border: 2px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .social-btn:hover {
+      border-color: var(--primary-blue);
+      background: #f8faff;
+    }
+
+    .toast-success {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #10b981;
+      color: white;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      z-index: 10000;
+      transform: translateX(calc(100% + 20px));
+      transition: transform 0.3s ease;
+    }
+    .toast-success.show {
+      transform: translateX(0);
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 767px) {
+      .hero-register h1 { font-size: 2rem; }
+      .register-card { padding: var(--spacing-lg); }
+      .social-login { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="top-bar">
+      <div class="container">
+        <div class="top-bar-links justify-content-between">
+          <div><span>📞 02 1234 5678</span><span class="mx-2">|</span><span>📧 info@techstore.it</span></div>
+          <div class="d-none d-md-flex">
+            <a href="contatti.html">Contatti</a>
+            <span class="mx-2">|</span>
+            <a href="chi-siamo.html">Chi Siamo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <button class="mobile-menu-toggle me-2 d-lg-none">☰</button>
+          <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+          <div class="header-actions ms-auto">
+            <a href="carrello.html" class="header-action">
+              <span class="header-action-icon">🛒<span class="cart-count" style="display: none;">0</span></span>
+              <span class="header-action-label d-none d-md-inline">Carrello</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="header-nav d-none d-lg-block">
+      <div class="container">
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">📺 Televisori</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">📱 Smartphone</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">📟 Tablet</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">💻 Notebook</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">🎧 Audio</a></li>
+          <li class="nav-item"><a href="catalogo.html" class="nav-link">🏠 Smart Home</a></li>
+          <li class="nav-item ms-auto"><a href="catalogo.html?sale=true" class="nav-link" style="color: var(--danger-red);">🏷️ Offerte</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
+    <div class="container">
+      <nav class="breadcrumb">
+        <span class="breadcrumb-item"><a href="index.html">Home</a></span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active">Registrati</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="hero-register">
+      <div class="container">
+        <h1>Crea il tuo Account</h1>
+        <p>Registrati per accedere a offerte esclusive, tracciare i tuoi ordini e acquistare più velocemente!</p>
+      </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="benefits-section">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">🚚</span>
+              <h5>Spedizione Prioritaria</h5>
+              <p>Consegna prioritaria su tutti gli ordini</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">🏷️</span>
+              <h5>Offerte Esclusive</h5>
+              <p>Accesso a sconti riservati ai membri</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="benefit-item">
+              <span class="benefit-icon">📦</span>
+              <h5>Tracciamento Ordini</h5>
+              <p>Segui i tuoi ordini in tempo reale</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Register Form -->
+    <section class="register-section">
+      <div class="container">
+        <div class="register-card">
+          <h2 class="text-center mb-4">Compila il modulo</h2>
+
+          <form id="register-form" novalidate>
+            <!-- Nome Completo -->
+            <div class="mb-3">
+              <label class="form-label" for="fullName">Nome Completo *</label>
+              <input type="text" class="form-control" id="fullName" name="fullName" required placeholder="Mario Rossi">
+              <div class="invalid-feedback">Inserisci il tuo nome completo</div>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label" for="email">Email *</label>
+              <input type="email" class="form-control" id="email" name="email" required placeholder="mario@email.it">
+              <div class="invalid-feedback">Inserisci un'indirizzo email valido</div>
+            </div>
+
+            <!-- Telefono -->
+            <div class="mb-3">
+              <label class="form-label" for="phone">Telefono</label>
+              <input type="tel" class="form-control" id="phone" name="phone" placeholder="+39 333 1234567">
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+              <label class="form-label" for="password">Password *</label>
+              <div class="password-wrapper">
+                <input type="password" class="form-control" id="password" name="password" required placeholder="Minimo 8 caratteri" minlength="8">
+                <button type="button" class="password-toggle" onclick="togglePassword('password', 'togglePassword1')">
+                  <span id="togglePassword1">👁️</span>
+                </button>
+              </div>
+              <div class="invalid-feedback">La password deve essere di almeno 8 caratteri</div>
+              <div class="password-strength">
+                <div class="password-strength-bar" id="passwordStrength"></div>
+              </div>
+            </div>
+
+            <!-- Conferma Password -->
+            <div class="mb-3">
+              <label class="form-label" for="confirmPassword">Conferma Password *</label>
+              <div class="password-wrapper">
+                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required placeholder="Ripeti la password">
+                <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', 'togglePassword2')">
+                  <span id="togglePassword2">👁️</span>
+                </button>
+              </div>
+              <div class="invalid-feedback">Le password non coincidono</div>
+            </div>
+
+            <!-- Termini e Condizioni -->
+            <div class="mb-3">
+              <div class="checkbox-custom">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">
+                  Accetto i <a href="#">Termini e Condizioni</a> e la <a href="#">Privacy Policy</a> *
+                </label>
+              </div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="mb-4">
+              <div class="checkbox-custom">
+                <input type="checkbox" id="newsletter" name="newsletter">
+                <label for="newsletter">
+                  Iscrivimi alla newsletter per ricevere offerte e novità
+                </label>
+              </div>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn-register" id="submitBtn">
+              <span class="loading-spinner" id="loadingSpinner"></span>
+              <span id="btnText">Registrati</span>
+            </button>
+          </form>
+
+          <div class="login-link">
+            Hai già un account? <a href="checkout.html">Accedi</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <a href="index.html" class="header-logo mb-3 d-inline-block" style="color: white;">🔌 Tech<span>Store</span></a>
+              <p style="opacity: 0.8; line-height: 1.6;">Il tuo shop di fiducia per l'elettronica di consumo.</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Link Rapidi</h4>
+              <ul class="footer-links">
+                <li><a href="catalogo.html">Catalogo</a></li>
+                <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Contatti</h4>
+              <div class="footer-contact-item"><span>📍</span><span>Via Roma 123, 20100 Milano (MI)</span></div>
+              <div class="footer-contact-item"><span>📞</span><span>02 1234 5678</span></div>
+              <div class="footer-contact-item"><span>📧</span><span>info@techstore.it</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p style="margin: 0; opacity: 0.8;">© 2024 TechStore. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Success Toast -->
+  <div class="toast-success" id="successToast">
+    ✓ Registrazione completata! Benvenuto su TechStore.
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    async function sha256(value) {
+      const data = new TextEncoder().encode(String(value || ''));
+      const digest = await crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(digest))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function normalizeEmail(value) {
+      return String(value || '').trim().toLowerCase();
+    }
+
+    function splitFullName(fullName) {
+      const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
+      if (!parts.length) return { firstname: 'Cliente', lastname: '' };
+      if (parts.length === 1) return { firstname: parts[0], lastname: '' };
+      return { firstname: parts[0], lastname: parts.slice(1).join(' ') };
+    }
+
+    function saveUser(user) {
+      localStorage.setItem('techstore_user', JSON.stringify(user));
+      const usersList = JSON.parse(localStorage.getItem('techstore_users') || '[]');
+      if (!Array.isArray(usersList)) return;
+      const email = normalizeEmail(user?.email);
+      const index = usersList.findIndex((u) => normalizeEmail(u?.email) === email);
+      if (index >= 0) {
+        usersList[index] = { ...usersList[index], ...user };
+      } else {
+        usersList.push(user);
+      }
+      localStorage.setItem('techstore_users', JSON.stringify(usersList));
+    }
+
+    // Toggle password visibility
+    function togglePassword(inputId, toggleId) {
+      const input = document.getElementById(inputId);
+      const toggle = document.getElementById(toggleId);
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggle.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        toggle.textContent = '👁️';
+      }
+    }
+
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    const strengthBar = document.getElementById('passwordStrength');
+
+    passwordInput?.addEventListener('input', function() {
+      const password = this.value;
+      strengthBar.className = 'password-strength-bar';
+
+      if (password.length === 0) {
+        strengthBar.style.width = '0';
+      } else if (password.length < 6) {
+        strengthBar.classList.add('strength-weak');
+      } else if (password.length < 10) {
+        strengthBar.classList.add('strength-medium');
+      } else {
+        strengthBar.classList.add('strength-strong');
+      }
+    });
+
+    // Form validation and submission
+    const registerForm = document.getElementById('register-form');
+    const submitBtn = document.getElementById('submitBtn');
+    const loadingSpinner = document.getElementById('loadingSpinner');
+    const btnText = document.getElementById('btnText');
+
+    registerForm?.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Reset validation
+      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('is-invalid'));
+
+      // Get form values
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const terms = document.getElementById('terms').checked;
+
+      let isValid = true;
+
+      // Validate full name
+      if (!fullName) {
+        document.getElementById('fullName').classList.add('is-invalid');
+        isValid = false;
+      }
+
+      // Validate email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email)) {
+        document.getElementById('email').classList.add('is-invalid');
+        isValid = false;
+      }
+
+      // Validate password length
+      if (!password || password.length < 8) {
+        document.getElementById('password').classList.add('is-invalid');
+        isValid = false;
+      }
+
+      // Validate password match
+      if (password !== confirmPassword) {
+        document.getElementById('confirmPassword').classList.add('is-invalid');
+        isValid = false;
+      }
+
+      // Validate terms
+      if (!terms) {
+        alert('Devi accettare i Termini e Condizioni e la Privacy Policy');
+        isValid = false;
+      }
+
+      if (isValid) {
+        // Show loading state
+        submitBtn.disabled = true;
+        loadingSpinner.style.display = 'inline-block';
+        btnText.textContent = 'Registrazione...';
+
+        // Simulate API call
+        setTimeout(async function() {
+          const { firstname, lastname } = splitFullName(fullName);
+
+          // Save user to localStorage (demo)
+          const userData = {
+            fullName: fullName,
+            firstname,
+            lastname,
+            email: normalizeEmail(email),
+            passwordHash: await sha256(password),
+            phone: document.getElementById('phone').value.trim(),
+            newsletter: document.getElementById('newsletter').checked,
+            registeredAt: new Date().toISOString()
+          };
+          saveUser(userData);
+
+          // Show success toast
+          const toast = document.getElementById('successToast');
+          toast.classList.add('show');
+
+          // Reset form
+          registerForm.reset();
+
+          // Reset button
+          submitBtn.disabled = false;
+          loadingSpinner.style.display = 'none';
+          btnText.textContent = 'Registrati';
+
+          // Hide toast after 3 seconds
+          setTimeout(function() {
+            toast.classList.remove('show');
+          }, 3000);
+
+          // Optional: redirect to login or home
+          console.log('User registered:', userData);
+        }, 1500);
+      }
+    });
+  </script>
+</body>
+</html>

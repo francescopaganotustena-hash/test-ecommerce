@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  <!-- SEO Meta Tags -->
+  <title>TechStore - Elettronica di Consumo | TV, Smartphone, Notebook e Altro</title>
+  <meta name="description" content="Scopri le migliori offerte su televisori, smartphone, tablet, notebook e accessori tech. Spedizione veloce, garanzia 24 mesi e assistenza dedicata.">
+  <meta name="keywords" content="elettronica, tv, smartphone, notebook, tablet, audio, smart home, offerte, tecnologia">
+  <meta name="author" content="TechStore">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="TechStore - Il Tuo Shop di Elettronica">
+  <meta property="og:description" content="Scopri le migliori offerte su televisori, smartphone, notebook e accessori tech.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.techstore.example.com">
+  <meta property="og:image" content="assets/images/og-image.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <!-- Google Analytics Placeholder -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  
+  <!-- Meta Pixel Placeholder -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'XXXXXXXXXXXXXXXXX');
+    fbq('track', 'PageView');
+  </script>
+</head>
+<body>
+  <!-- Skip Link -->
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+  
+  <!-- Toast Container -->
+  <div class="toast-container"></div>
+  
+  <!-- Scroll to Top -->
+  <a href="#" class="scroll-top" aria-label="Torna su">↑</a>
+  
+  <!-- Header -->
+  <header class="header">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="container">
+        <div class="top-bar-links justify-content-between">
+          <div>
+            <span>📞 02 1234 5678</span>
+            <span class="mx-2">|</span>
+            <span>📧 info@techstore.it</span>
+          </div>
+          <div class="d-none d-md-flex">
+            <a href="contatti.html">Contatti</a>
+            <span class="mx-2">|</span>
+            <a href="chi-siamo.html">Chi Siamo</a>
+            <span class="mx-2">|</span>
+            <a href="login.html">Area Cliente</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Header Main -->
+    <div class="header-main">
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <!-- Mobile Menu Toggle -->
+          <button class="mobile-menu-toggle me-2 d-lg-none" aria-label="Menu">
+            ☰
+          </button>
+          
+          <!-- Logo -->
+          <a href="index.html" class="header-logo">
+            🔌 Tech<span>Store</span>
+          </a>
+          
+          <!-- Search Bar -->
+          <div class="header-search d-none d-lg-block">
+            <form class="search-form" role="search">
+              <span class="search-icon">🔍</span>
+              <input type="search" class="search-input" placeholder="Cerca prodotti, brand, categorie..." aria-label="Cerca">
+              <button type="submit" class="search-btn">Cerca</button>
+            </form>
+          </div>
+          
+          <!-- Header Actions -->
+          <div class="header-actions ms-auto">
+            <a href="login.html" class="header-action d-none d-md-flex">
+              <span class="header-action-icon">📝</span>
+              <span class="header-action-label">Registrati</span>
+            </a>
+            <a href="login.html" class="header-action d-none d-md-flex">
+              <span class="header-action-icon">👤</span>
+              <span class="header-action-label">Accedi</span>
+            </a>
+            <a href="#" class="header-action d-none d-md-flex">
+              <span class="header-action-icon">♡</span>
+              <span class="header-action-label">Preferiti</span>
+            </a>
+            <a href="carrello.html" class="header-action">
+              <span class="header-action-icon">
+                🛒
+                <span class="cart-count" style="display: none;">0</span>
+              </span>
+              <span class="header-action-label d-none d-md-inline">Carrello</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Mobile Search -->
+        <div class="header-search d-lg-none mt-3">
+          <form class="search-form" role="search">
+            <span class="search-icon">🔍</span>
+            <input type="search" class="search-input" placeholder="Cerca prodotti..." aria-label="Cerca">
+            <button type="submit" class="search-btn">Cerca</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="header-nav d-none d-lg-block">
+      <div class="container">
+        <ul class="nav-menu">
+          <li class="nav-item">
+            <a href="catalogo.html?category=televisori" class="nav-link">
+              <span class="nav-icon">📺</span> Televisori
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="catalogo.html?category=smartphone" class="nav-link">
+              <span class="nav-icon">📱</span> Smartphone
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="catalogo.html?category=tablet" class="nav-link">
+              <span class="nav-icon">📟</span> Tablet
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="catalogo.html?category=notebook" class="nav-link">
+              <span class="nav-icon">💻</span> Notebook
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="catalogo.html?category=audio" class="nav-link">
+              <span class="nav-icon">🎧</span> Audio
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="catalogo.html?category=smart-home" class="nav-link">
+              <span class="nav-icon">🏠</span> Smart Home
+            </a>
+          </li>
+          <li class="nav-item ms-auto">
+            <a href="catalogo.html?sale=true" class="nav-link" style="color: var(--danger-red);">
+              <span class="nav-icon">🏷️</span> Offerte
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <span class="hero-badge">🎉 Nuove Offerte Ogni Settimana</span>
+            <h1 class="hero-title">La Tecnologia che Vuoi, al Prezzo che Sogni</h1>
+            <p class="hero-subtitle">Scopri le ultime novità in fatto di elettronica di consumo. Spedizione gratuita oltre i 50€ e garanzia 24 mesi.</p>
+            <div class="hero-buttons">
+              <a href="catalogo.html" class="btn btn-accent btn-lg">
+                🛒 Acquista Ora
+              </a>
+              <a href="catalogo.html?sale=true" class="btn btn-outline-light btn-lg">
+                🏷️ Vedi Offerte
+              </a>
+              <a href="login.html" class="btn btn-primary btn-lg">
+                📝 Registrati
+              </a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="assets/images/products/p1.jpg" alt="Prodotti elettronici" style="max-width: 400px;">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="container">
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">🚚</div>
+            <div class="feature-text">
+              <h4>Spedizione Veloce</h4>
+              <p>Consegna in 24/48 ore</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🛡️</div>
+            <div class="feature-text">
+              <h4>Garanzia 24 Mesi</h4>
+              <p>Tutti i prodotti garantiti</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔧</div>
+            <div class="feature-text">
+              <h4>Assistenza Tecnica</h4>
+              <p>Supporto dedicato</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">💳</div>
+            <div class="feature-text">
+              <h4>Pagamenti Sicuri</h4>
+              <p>Card, PayPal, Bonifico</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Categories Section -->
+    <section class="categories-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Categorie Principali</h2>
+          <p>Esplora i nostri prodotti divisi per categoria</p>
+        </div>
+        <div class="row g-4" id="categories-grid">
+          <!-- Categories will be loaded by JavaScript -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- Featured Products Section -->
+    <section class="featured-section" style="background: var(--bg-light);">
+      <div class="container">
+        <div class="section-title">
+          <h2>Prodotti in Evidenza</h2>
+          <p>I nostri bestseller scelti per te</p>
+        </div>
+        <div class="row g-4" id="featured-products-grid">
+          <!-- Products will be loaded by JavaScript -->
+        </div>
+        <div class="text-center mt-5">
+          <a href="catalogo.html" class="btn btn-primary btn-lg">
+            Vedi Tutti i Prodotti →
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Sale Products Section -->
+    <section class="sale-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>🔥 Offerte Imperdibili</h2>
+          <p>Sconti fino al 30% su una selezione di prodotti</p>
+        </div>
+        <div class="row g-4" id="sale-products-grid">
+          <!-- Products will be loaded by JavaScript -->
+        </div>
+        <div class="text-center mt-5">
+          <a href="catalogo.html?sale=true" class="btn btn-accent btn-lg">
+            Vedi Tutte le Offerte
+          </a>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+      <div class="container">
+        <div class="section-title">
+          <h2>Cosa Dicono i Nostri Clienti</h2>
+          <p>La soddisfazione dei nostri clienti è la nostra priorità</p>
+        </div>
+        <div class="reviews-grid">
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">M</div>
+              <div class="review-info">
+                <h4>Marco R.</h4>
+                <div class="review-stars">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-text">"Spedizione velocissima e prodotto perfetto. Il TV Samsung è arrivato in 24 ore, imballato benissimo. Assistenza top!"</p>
+          </div>
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">L</div>
+              <div class="review-info">
+                <h4>Laura B.</h4>
+                <div class="review-stars">★★★★★</div>
+              </div>
+            </div>
+            <p class="review-text">"Ho comprato il mio iPhone qui e sono strafelice. Prezzo competitivo e servizio clienti sempre disponibile. Consigliatissimi!"</p>
+          </div>
+          <div class="review-card">
+            <div class="review-header">
+              <div class="review-avatar">G</div>
+              <div class="review-info">
+                <h4>Giuseppe T.</h4>
+                <div class="review-stars">★★★★☆</div>
+              </div>
+            </div>
+            <p class="review-text">"Terzo acquisto su TechStore, sempre una garanzia. Unico neo: a volte i prodotti più richiesti finiscono subito."</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Newsletter Section -->
+    <section class="newsletter-section" style="background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark)); color: white; padding: var(--spacing-xxl) 0;">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <h2 style="color: white; margin-bottom: var(--spacing-sm);">Iscriviti alla Newsletter</h2>
+            <p style="opacity: 0.9; margin-bottom: 0;">Ricevi in anteprima le nostre offerte e un coupon sconto del 10% sul primo ordine!</p>
+          </div>
+          <div class="col-lg-6">
+            <form class="newsletter-form" style="display: flex; gap: var(--spacing-md); flex-wrap: wrap;">
+              <input type="email" class="form-control" placeholder="La tua email" style="flex: 1; min-width: 200px;" required>
+              <button type="submit" class="btn btn-accent btn-lg">Iscriviti</button>
+            </form>
+            <p style="font-size: 0.8rem; opacity: 0.7; margin-top: var(--spacing-sm);">
+              🔒 Rispettiamo la tua privacy. Disiscriviti quando vuoi.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row">
+          <!-- Company Info -->
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <a href="index.html" class="header-logo mb-3 d-inline-block" style="color: white;">
+                🔌 Tech<span>Store</span>
+              </a>
+              <p style="opacity: 0.8; line-height: 1.6;">
+                Il tuo shop di fiducia per l'elettronica di consumo. Prodotti originali, garanzia ufficiale e assistenza dedicata.
+              </p>
+              <div class="footer-social">
+                <a href="#" class="social-link" aria-label="Facebook">📘</a>
+                <a href="#" class="social-link" aria-label="Instagram">📷</a>
+                <a href="#" class="social-link" aria-label="Twitter">🐦</a>
+                <a href="#" class="social-link" aria-label="YouTube">📺</a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Link Rapidi</h4>
+              <ul class="footer-links">
+                <li><a href="catalogo.html">Catalogo</a></li>
+                <li><a href="catalogo.html?sale=true">Offerte</a></li>
+                <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+                <li><a href="#">Blog</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Customer Service -->
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Servizio Clienti</h4>
+              <ul class="footer-links">
+                <li><a href="login.html">Area Cliente</a></li>
+                <li><a href="login.html">I Miei Ordini</a></li>
+                <li><a href="#">Spedizioni</a></li>
+                <li><a href="#">Resi e Rimborsi</a></li>
+                <li><a href="#">Garanzia</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="admin.html" style="font-size: 0.85em; opacity: 0.7;">⚙️ Area Admin</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Contact Info -->
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Contatti</h4>
+              <div class="footer-contact-item">
+                <span class="footer-contact-icon">📍</span>
+                <span>Via Roma 123, 20100 Milano (MI)</span>
+              </div>
+              <div class="footer-contact-item">
+                <span class="footer-contact-icon">📞</span>
+                <span>02 1234 5678</span>
+              </div>
+              <div class="footer-contact-item">
+                <span class="footer-contact-icon">📧</span>
+                <span>info@techstore.it</span>
+              </div>
+              <div class="footer-contact-item">
+                <span class="footer-contact-icon">🕐</span>
+                <span>Lun-Ven: 9:00-18:00<br>Sab: 9:00-13:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-content">
+          <p style="margin: 0; opacity: 0.8;">
+            © 2024 TechStore. Tutti i diritti riservati. P.IVA: 12345678901
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <a href="#" style="opacity: 0.8;">Privacy Policy</a>
+            <a href="#" style="opacity: 0.8;">Cookie Policy</a>
+            <a href="#" style="opacity: 0.8;">Termini e Condizioni</a>
+          </div>
+          <div class="footer-payment">
+            <span class="payment-icon">💳</span>
+            <span class="payment-icon">🏦</span>
+            <span class="payment-icon">📱</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay"></div>
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <button class="mobile-menu-close" aria-label="Chiudi menu">✕</button>
+      <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+    </div>
+    <nav class="mobile-menu-nav">
+      <a href="catalogo.html?category=televisori" class="mobile-menu-link">📺 Televisori</a>
+      <a href="catalogo.html?category=smartphone" class="mobile-menu-link">📱 Smartphone</a>
+      <a href="catalogo.html?category=tablet" class="mobile-menu-link">📟 Tablet</a>
+      <a href="catalogo.html?category=notebook" class="mobile-menu-link">💻 Notebook</a>
+      <a href="catalogo.html?category=audio" class="mobile-menu-link">🎧 Audio</a>
+      <a href="catalogo.html?category=smart-home" class="mobile-menu-link">🏠 Smart Home</a>
+      <a href="catalogo.html?sale=true" class="mobile-menu-link" style="color: var(--danger-red);">🏷️ Offerte</a>
+      <hr>
+      <a href="login.html" class="mobile-menu-link">👤 Accedi</a>
+      <a href="login.html" class="mobile-menu-link">📝 Registrati</a>
+      <a href="#" class="mobile-menu-link">♡ Preferiti</a>
+      <a href="carrello.html" class="mobile-menu-link">🛒 Carrello</a>
+      <hr>
+      <a href="chi-siamo.html" class="mobile-menu-link">Chi Siamo</a>
+      <a href="contatti.html" class="mobile-menu-link">Contatti</a>
+    </nav>
+  </div>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  
+  <!-- Home Page Specific Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Render categories
+      const categoriesGrid = document.getElementById('categories-grid');
+      if (categoriesGrid && window.TechStoreProducts) {
+        categoriesGrid.innerHTML = TechStoreProducts.categories.map(cat => `
+          <div class="col-6 col-md-4 col-lg-2">
+            ${TechStoreUI.UIComponents.renderCategoryCard(cat)}
+          </div>
+        `).join('');
+      }
+      
+      // Render featured products
+      const featuredGrid = document.getElementById('featured-products-grid');
+      if (featuredGrid && window.TechStoreProducts) {
+        const featured = TechStoreProducts.getFeaturedProducts().slice(0, 4);
+        featuredGrid.innerHTML = featured.map(p => `
+          <div class="col-12 col-sm-6 col-lg-3">
+            ${TechStoreUI.UIComponents.renderProductCard(p)}
+          </div>
+        `).join('');
+      }
+      
+      // Render sale products
+      const saleGrid = document.getElementById('sale-products-grid');
+      if (saleGrid && window.TechStoreProducts) {
+        const saleProducts = TechStoreProducts.getSaleProducts().slice(0, 4);
+        saleGrid.innerHTML = saleProducts.map(p => `
+          <div class="col-12 col-sm-6 col-lg-3">
+            ${TechStoreUI.UIComponents.renderProductCard(p)}
+          </div>
+        `).join('');
+      }
+      
+      // Newsletter form
+      const newsletterForm = document.querySelector('.newsletter-form');
+      if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          const email = this.querySelector('input[type="email"]').value;
+          if (email) {
+            cart.showToast('success', 'Grazie per esserti iscritto! Controlla la tua email per il coupon.');
+            this.reset();
+          }
+        });
+      }
+    });
+  </script>
+  
+</body>
+</html>

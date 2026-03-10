@@ -1,0 +1,15 @@
+{
+  "name": "ecommerce",
+  "version": "1.0.0",
+  "description": "Sito web e-commerce multi-pagina per vendita di elettronica di consumo, con catalogo dinamico, carrello persistente e checkout.",
+  "main": "test-e2e.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^24.38.0"
+  }
+}

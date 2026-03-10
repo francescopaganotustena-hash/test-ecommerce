@@ -1,0 +1,530 @@
+/**
+ * TECHSTORE - Admin Panel Styles
+ */
+
+:root {
+  --admin-primary: #4f46e5;
+  --admin-primary-hover: #4338ca;
+  --admin-secondary: #6b7280;
+  --admin-success: #10b981;
+  --admin-danger: #ef4444;
+  --admin-bg: #f3f4f6;
+  --admin-sidebar: #1f2937;
+  --admin-text: #111827;
+  --admin-border: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--admin-bg);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ============================================
+   LOGIN SCREEN
+   ============================================ */
+
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 16px;
+  padding: 48px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.login-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--admin-text);
+  margin: 0 0 8px 0;
+}
+
+.login-header p {
+  color: var(--admin-secondary);
+  margin: 0;
+}
+
+#login-form .form-control {
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+}
+
+#login-form .form-control:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* ============================================
+   ADMIN DASHBOARD
+   ============================================ */
+
+.admin-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.admin-header {
+  background: white;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.admin-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Main Layout */
+.admin-main {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.admin-sidebar {
+  width: 240px;
+  background: var(--admin-sidebar);
+  min-height: calc(100vh - 65px);
+  padding: 20px 0;
+  flex-shrink: 0;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  color: #9ca3af;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.sidebar-link.active {
+  background: var(--admin-primary);
+  color: white;
+}
+
+.sidebar-link hr {
+  border-color: rgba(255, 255, 255, 0.1);
+  margin: 12px 0;
+}
+
+/* Content */
+.admin-content {
+  flex: 1;
+  padding: 24px;
+  overflow-x: hidden;
+}
+
+.admin-view {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   TABLE
+   ============================================ */
+
+.admin-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.admin-table thead {
+  background: #f9fafb;
+}
+
+.admin-table th {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--admin-secondary);
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-table td {
+  padding: 16px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-table tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tr:hover {
+  background: #f9fafb;
+}
+
+.product-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f3f4f6;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.category-televisori { background: #dbeafe; color: #1d4ed8; }
+.category-smartphone { background: #ffedd5; color: #c2410c; }
+.category-tablet { background: #dcfce7; color: #15803d; }
+.category-notebook { background: #ede9fe; color: #7c3aed; }
+.category-audio { background: #fee2e2; color: #dc2626; }
+.category-smart-home { background: #cffafe; color: #0891b2; }
+
+/* ============================================
+   FORM
+   ============================================ */
+
+.admin-form {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+}
+
+.form-section-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--admin-text);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--admin-primary);
+  display: inline-block;
+}
+
+.admin-form .form-control,
+.admin-form .form-select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--admin-border);
+}
+
+.admin-form .form-control:focus,
+.admin-form .form-select:focus {
+  border-color: var(--admin-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.admin-form .form-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--admin-text);
+  margin-bottom: 6px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 24px;
+  border-top: 1px solid var(--admin-border);
+}
+
+/* Image Preview */
+.image-preview {
+  width: 100%;
+  height: 120px;
+  border: 2px dashed var(--admin-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-preview span {
+  font-size: 32px;
+  opacity: 0.5;
+}
+
+/* Image Source Toggle */
+.image-source-toggle {
+  margin-bottom: 16px;
+}
+
+.image-source-toggle .btn {
+  min-width: 100px;
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+}
+
+.toast-notification.show {
+  transform: translateX(0);
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+}
+
+.toast-success .toast-icon { background: var(--admin-success); }
+.toast-error .toast-icon { background: var(--admin-danger); }
+.toast-info .toast-icon { background: var(--admin-primary); }
+
+.toast-message {
+  font-weight: 500;
+  color: var(--admin-text);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 991px) {
+  .admin-sidebar {
+    position: fixed;
+    left: -240px;
+    top: 65px;
+    height: calc(100vh - 65px);
+    z-index: 99;
+    transition: left 0.3s ease;
+  }
+
+  .admin-sidebar.active {
+    left: 0;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-table {
+    font-size: 0.875rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 10px 8px;
+  }
+
+  .product-thumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  .admin-form {
+    padding: 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .login-box {
+    padding: 32px 24px;
+  }
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.btn-primary {
+  background: var(--admin-primary);
+  border-color: var(--admin-primary);
+}
+
+.btn-primary:hover {
+  background: var(--admin-primary-hover);
+  border-color: var(--admin-primary-hover);
+}
+
+.btn-success {
+  background: var(--admin-success);
+  border-color: var(--admin-success);
+}
+
+.btn-success:hover {
+  background: #059669;
+  border-color: #059669;
+}
+
+.btn-outline-primary {
+  color: var(--admin-primary);
+  border-color: var(--admin-primary);
+}
+
+.btn-outline-primary:hover {
+  background: var(--admin-primary);
+  color: white;
+}
+
+.btn-outline-danger {
+  color: var(--admin-danger);
+  border-color: var(--admin-danger);
+}
+
+.btn-outline-danger:hover {
+  background: var(--admin-danger);
+  color: white;
+}
+
+/* Utility */
+.d-none { display: none !important; }
+
+/* Form switch */
+.form-switch .form-check-input {
+  width: 3em;
+  height: 1.5em;
+  cursor: pointer;
+}
+
+.form-switch .form-check-label {
+  margin-left: 8px;
+  cursor: pointer;
+}
+/* ========================================
+   RESTYLING CYCLE 3 - ADMIN VISUAL ALIGNMENT
+   ======================================== */
+:root {
+  --admin-primary: #101010;
+  --admin-primary-hover: #232323;
+  --admin-secondary: #666;
+  --admin-success: #2f7d4f;
+  --admin-danger: #b33a3a;
+  --admin-bg: #f7f4ef;
+  --admin-sidebar: #141414;
+  --admin-text: #111;
+  --admin-border: #e4ddd5;
+}
+
+body {
+  background: linear-gradient(180deg, #fbfaf8 0%, #f2eee8 100%);
+}
+
+.login-container {
+  background: linear-gradient(145deg, #171717 0%, #2a2a2a 45%, #8f6d56 100%);
+}
+
+.login-box,
+.admin-table,
+.admin-form,
+#view-products .table-responsive {
+  border-radius: 0;
+}
+
+.admin-header {
+  border-bottom: 1px solid var(--admin-border);
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.admin-title,
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-link.active {
+  background: linear-gradient(90deg, #242424 0%, #101010 100%);
+}
+
+.btn,
+.form-control,
+.form-select {
+  border-radius: 0 !important;
+}

@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dettaglio Prodotto | TechStore</title>
+  <meta name="description" content="Scopri le specifiche e le offerte del prodotto.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  
+  <style>
+    .product-main-image {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      cursor: zoom-in;
+    }
+    .product-thumbnails {
+      display: flex;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-md);
+    }
+    .product-thumbnails img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color var(--transition-fast);
+    }
+    .product-thumbnails img:hover,
+    .product-thumbnails img.active {
+      border-color: var(--primary-blue);
+    }
+    .product-info h1 {
+      font-size: 1.75rem;
+      margin-bottom: var(--spacing-sm);
+    }
+    .product-price-large {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+    .product-original-price {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .product-savings {
+      color: var(--danger-red);
+      font-weight: 600;
+    }
+    .stock-status {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-full);
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .stock-available {
+      background: rgba(40, 167, 69, 0.1);
+      color: var(--success-green);
+    }
+    .stock-low {
+      background: rgba(255, 193, 7, 0.1);
+      color: #ffc107;
+    }
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    .quantity-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .quantity-btn:hover {
+      background: var(--primary-blue);
+      color: white;
+      border-color: var(--primary-blue);
+    }
+    .quantity-input {
+      width: 60px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm);
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .specs-table tr {
+      border-bottom: 1px solid var(--border-color);
+    }
+    .specs-table tr:last-child {
+      border-bottom: none;
+    }
+    .specs-table td {
+      padding: var(--spacing-md);
+    }
+    .specs-table td:first-child {
+      font-weight: 600;
+      color: var(--text-muted);
+      width: 40%;
+    }
+    .tab-content-custom {
+      padding: var(--spacing-xl) 0;
+    }
+    .nav-tabs-custom {
+      border-bottom: 2px solid var(--border-color);
+      margin-bottom: var(--spacing-lg);
+    }
+    .nav-tabs-custom .nav-link {
+      border: none;
+      color: var(--text-muted);
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-weight: 600;
+      position: relative;
+    }
+    .nav-tabs-custom .nav-link.active {
+      color: var(--primary-blue);
+      background: none;
+    }
+    .nav-tabs-custom .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary-blue);
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-color);
+      padding: var(--spacing-lg) 0;
+    }
+    .faq-question {
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      margin-top: var(--spacing-md);
+      color: var(--text-muted);
+      display: none;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+    .related-products .product-card {
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+  <div class="toast-container"></div>
+  <a href="#" class="scroll-top" aria-label="Torna su">↑</a>
+  
+  <!-- Header Semplificato -->
+  <header class="header">
+    <div class="top-bar">
+      <div class="container">
+        <div class="top-bar-links justify-content-between">
+          <div><span>📞 02 1234 5678</span><span class="mx-2">|</span><span>📧 info@techstore.it</span></div>
+          <div class="d-none d-md-flex">
+            <a href="contatti.html">Contatti</a>
+            <span class="mx-2">|</span>
+            <a href="chi-siamo.html">Chi Siamo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <button class="mobile-menu-toggle me-2 d-lg-none" aria-label="Menu">☰</button>
+          <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+          <div class="header-actions ms-auto">
+            <a href="carrello.html" class="header-action">
+              <span class="header-action-icon">🛒<span class="cart-count" style="display: none;">0</span></span>
+              <span class="header-action-label d-none d-md-inline">Carrello</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="header-nav d-none d-lg-block">
+      <div class="container">
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="catalogo.html?category=televisori" class="nav-link">📺 Televisori</a></li>
+          <li class="nav-item"><a href="catalogo.html?category=smartphone" class="nav-link">📱 Smartphone</a></li>
+          <li class="nav-item"><a href="catalogo.html?category=tablet" class="nav-link">📟 Tablet</a></li>
+          <li class="nav-item"><a href="catalogo.html?category=notebook" class="nav-link">💻 Notebook</a></li>
+          <li class="nav-item"><a href="catalogo.html?category=audio" class="nav-link">🎧 Audio</a></li>
+          <li class="nav-item"><a href="catalogo.html?category=smart-home" class="nav-link">🏠 Smart Home</a></li>
+          <li class="nav-item ms-auto"><a href="catalogo.html" class="nav-link" style="color: var(--danger-red);">🏷️ Offerte</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-section">
+    <div class="container">
+      <nav class="breadcrumb">
+        <span class="breadcrumb-item"><a href="index.html">Home</a></span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item"><a href="catalogo.html">Catalogo</a></span>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-item active" id="breadcrumb-product">Prodotto</span>
+      </nav>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <main id="main-content">
+    <section class="py-2">
+      <div class="container">
+        <!-- Product Details -->
+        <div class="row" id="product-details">
+          <!-- Loading -->
+          <div class="col-12 text-center py-5">
+            <div class="spinner"></div>
+            <p class="mt-3 text-muted">Caricamento prodotto...</p>
+          </div>
+        </div>
+        
+        <!-- Tabs Section -->
+        <div class="row" id="product-tabs" style="display: none; margin-top: 0; padding-top: 0;">
+          <div class="col-12">
+            <ul class="nav nav-tabs nav-tabs-custom" id="productTab" role="tablist">
+              <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#desc">Descrizione</button></li>
+              <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#specs">Scheda Tecnica</button></li>
+              <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews">Recensioni</button></li>
+              <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#faq">FAQ</button></li>
+            </ul>
+            
+            <div class="tab-content tab-content-custom" style="margin-bottom: 0;">
+              <div class="tab-pane fade show active" id="desc">
+                <h3 style="margin-bottom: 8px;">Descrizione Prodotto</h3>
+                <p id="product-description" class="text-muted" style="line-height: 1.6;"></p>
+              </div>
+              <div class="tab-pane fade" id="specs">
+                <h3>Scheda Tecnica</h3>
+                <table class="specs-table" id="product-specs"></table>
+              </div>
+              <div class="tab-pane fade" id="reviews">
+                <h3>Recensioni dei Clienti</h3>
+                <div id="reviews-content"></div>
+              </div>
+              <div class="tab-pane fade" id="faq">
+                <h3>Domande Frequenti</h3>
+                <div id="faq-content"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Related Products -->
+        <div class="row" id="related-products" style="display: none; margin-top: 0; padding-top: 0;">
+          <div class="col-12">
+            <h3 class="mb-1">Prodotti Correlati</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <a href="index.html" class="header-logo mb-3 d-inline-block" style="color: white;">🔌 Tech<span>Store</span></a>
+              <p style="opacity: 0.8; line-height: 1.6;">Il tuo shop di fiducia per l'elettronica di consumo.</p>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Link Rapidi</h4>
+              <ul class="footer-links">
+                <li><a href="catalogo.html">Catalogo</a></li>
+                <li><a href="chi-siamo.html">Chi Siamo</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-2 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Servizio Clienti</h4>
+              <ul class="footer-links">
+                <li><a href="login.html">Area Cliente</a></li>
+                <li><a href="#">Spedizioni</a></li>
+                <li><a href="#">Resi e Rimborsi</a></li>
+                <li><a href="#">Garanzia</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Contatti</h4>
+              <div class="footer-contact-item"><span class="footer-contact-icon">📍</span><span>Via Roma 123, 20100 Milano (MI)</span></div>
+              <div class="footer-contact-item"><span class="footer-contact-icon">📞</span><span>02 1234 5678</span></div>
+              <div class="footer-contact-item"><span class="footer-contact-icon">📧</span><span>info@techstore.it</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p style="margin: 0; opacity: 0.8;">© 2024 TechStore. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  
+  <!-- Product Page Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = new URLSearchParams(window.location.search);
+      const productId = params.get('id');
+      
+      if (!productId) {
+        document.getElementById('product-details').innerHTML = `
+          <div class="col-12 text-center py-5">
+            <h2>Prodotto non trovato</h2>
+            <p class="text-muted">Torna al <a href="catalogo.html">catalogo</a> per scegliere un altro prodotto.</p>
+          </div>
+        `;
+        return;
+      }
+      
+      const product = TechStoreProducts.getProductById(productId);
+      
+      if (!product) {
+        document.getElementById('product-details').innerHTML = `
+          <div class="col-12 text-center py-5">
+            <h2>Prodotto non trovato</h2>
+            <p class="text-muted">Il prodotto richiesto non esiste più.</p>
+            <a href="catalogo.html" class="btn btn-primary mt-3">Torna al catalogo</a>
+          </div>
+        `;
+        return;
+      }
+      
+      // Update page title
+      document.title = `${product.name} | TechStore`;
+      
+      const discountedPrice = product.discount > 0 
+        ? (product.price * (1 - product.discount / 100)).toFixed(2)
+        : product.price;
+      const savings = product.discount > 0 
+        ? (product.originalPrice - discountedPrice).toFixed(2)
+        : 0;
+      
+      // Render product details
+      document.getElementById('product-details').innerHTML = `
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img src="${product.image}" alt="${product.name}" class="product-main-image" id="main-image">
+          ${product.images && product.images.length > 1 ? `
+          <div class="product-thumbnails">
+            ${product.images.map((img, i) => `
+              <img src="${img}" alt="Immagine ${i + 1}" class="${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
+            `).join('')}
+          </div>
+          ` : ''}
+        </div>
+        <div class="col-lg-6">
+          <div class="product-info">
+            <p class="text-muted text-uppercase" style="font-size: 0.875rem;">${product.brand}</p>
+            <h1>${product.name}</h1>
+            
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <div style="color: #FFC107;">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 >= 0.5 ? '½' : ''}${'☆'.repeat(5 - Math.ceil(product.rating))}</div>
+              <span class="fw-bold">${product.rating.toFixed(1)}</span>
+              <span class="text-muted">(${product.reviews} recensioni)</span>
+            </div>
+            
+            <div class="mb-3">
+              ${product.discount > 0 ? `
+                <span class="product-price-large">€${discountedPrice}</span>
+                <span class="product-original-price ms-2">€${product.originalPrice}</span>
+                <span class="product-savings ms-2">Risparmi €${savings}</span>
+              ` : `<span class="product-price-large">€${product.price}</span>`}
+            </div>
+            
+            <div class="mb-4">
+              ${product.inStock ? `
+                <span class="stock-status stock-available">✓ Disponibile</span>
+                ${product.stock < 10 ? `<span class="stock-status stock-low ms-2">⚠ Solo ${product.stock} pezzi</span>` : ''}
+              ` : '<span class="stock-status" style="background: rgba(220,53,69,0.1); color: var(--danger-red);">Non disponibile</span>'}
+            </div>
+            
+            <p class="text-muted mb-4">${product.description}</p>
+            
+            ${product.inStock ? `
+            <div class="mb-4">
+              <label class="form-label fw-bold">Quantità</label>
+              <div class="quantity-selector">
+                <button class="quantity-btn" onclick="decreaseQty()">-</button>
+                <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="${product.stock}">
+                <button class="quantity-btn" onclick="increaseQty(${product.stock})">+</button>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2 mb-4">
+              <button class="btn btn-accent btn-lg" onclick="addToCart()">
+                🛒 Aggiungi al Carrello
+              </button>
+              <button class="btn btn-outline-primary" onclick="addToWishlist()">
+                ♡ Aggiungi ai Preferiti
+              </button>
+            </div>
+            ` : '<p class="text-danger">Prodotto attualmente non disponibile</p>'}
+            
+            <hr>
+            
+            <div class="d-flex gap-4 text-muted" style="font-size: 0.875rem;">
+              <div>🚚 Spedizione in 24/48h</div>
+              <div>🛡️ Garanzia 24 mesi</div>
+              <div>↩️ Reso gratuito 30 giorni</div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Update breadcrumb
+      document.getElementById('breadcrumb-product').textContent = product.name;
+      
+      // Show tabs
+      document.getElementById('product-tabs').style.display = 'block';
+      
+      // Fill description
+      document.getElementById('product-description').textContent = product.description;
+      
+      // Fill specs
+      const specsTable = document.getElementById('product-specs');
+      if (product.specs) {
+        specsTable.innerHTML = Object.entries(product.specs).map(([key, value]) => `
+          <tr><td>${key}</td><td>${value}</td></tr>
+        `).join('');
+      }
+      
+      // Fill reviews
+      document.getElementById('reviews-content').innerHTML = `
+        <div class="row">
+          <div class="col-md-4 text-center mb-4 mb-md-0">
+            <div style="font-size: 3rem; font-weight: 700; color: var(--primary-blue);">${product.rating}</div>
+            <div style="color: #FFC107; font-size: 1.5rem;">${'★'.repeat(Math.floor(product.rating))}${product.rating % 1 >= 0.5 ? '½' : ''}</div>
+            <div class="text-muted">${product.reviews} recensioni verificate</div>
+          </div>
+          <div class="col-md-8">
+            <div class="card p-4">
+              <p class="text-muted mb-0">Le recensioni dei clienti per questo prodotto saranno visibili a breve. Stiamo raccogliendo le opinioni dei nostri clienti per offrirti informazioni sempre più complete.</p>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Fill FAQ
+      document.getElementById('faq-content').innerHTML = `
+        <div class="faq-item active">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Quali sono i tempi di spedizione?</span>
+            <span>−</span>
+          </div>
+          <div class="faq-answer">La spedizione avviene entro 24 ore dall'ordine. I tempi di consegna sono di 24/48 ore lavorative su tutto il territorio italiano.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Come funziona la garanzia?</span>
+            <span>+</span>
+          </div>
+          <div class="faq-answer">Tutti i prodotti sono coperti da garanzia legale di 24 mesi. In caso di difetti o malfunzionamenti, il prodotto verrà riparato o sostituito gratuitamente.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Posso restituire il prodotto?</span>
+            <span>+</span>
+          </div>
+          <div class="faq-answer">Sì, hai 30 giorni di tempo per restituire il prodotto se non sei soddisfatto. Il reso è gratuito e il rimborso viene effettuato entro 14 giorni.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span>Quali metodi di pagamento accettate?</span>
+            <span>+</span>
+          </div>
+          <div class="faq-answer">Accettiamo carte di credito/debito (Visa, Mastercard, American Express), PayPal, bonifico bancario e pagamento rateale.</div>
+        </div>
+      `;
+      
+      // Related products
+      const related = TechStoreProducts.getRelatedProducts(product.id, product.category, 4);
+      if (related.length > 0) {
+        document.getElementById('related-products').style.display = 'block';
+        document.getElementById('related-products').innerHTML = `
+          <div class="col-12"><h3 class="mb-4">Prodotti Correlati</h3></div>
+          <div class="related-products-grid">
+          ${related.map(p => `
+            <div>
+              ${window.TechStoreUI ? window.TechStoreUI.UIComponents.renderProductCard(p) : renderSimpleCard(p)}
+            </div>
+          `).join('')}
+          </div>
+        `;
+      }
+    });
+    
+    function changeImage(src, element) {
+      document.getElementById('main-image').src = src;
+      document.querySelectorAll('.product-thumbnails img').forEach(img => img.classList.remove('active'));
+      element.classList.add('active');
+    }
+    
+    function increaseQty(max) {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) < max) {
+        input.value = parseInt(input.value) + 1;
+      }
+    }
+    
+    function decreaseQty() {
+      const input = document.getElementById('quantity');
+      if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
+      }
+    }
+    
+    function addToCart() {
+      const productId = new URLSearchParams(window.location.search).get('id');
+      const quantity = parseInt(document.getElementById('quantity')?.value || 1);
+      const product = TechStoreProducts.getProductById(productId);
+      if (product && window.cart) {
+        cart.addItem(product, quantity);
+      }
+    }
+    
+    function addToWishlist() {
+      cart.showToast('info', 'Prodotto aggiunto ai preferiti!');
+    }
+    
+    function toggleFaq(element) {
+      const item = element.closest('.faq-item');
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(f => {
+        f.classList.remove('active');
+        f.querySelector('.faq-question span:last-child').textContent = '+';
+      });
+      if (!isActive) {
+        item.classList.add('active');
+        element.querySelector('span:last-child').textContent = '−';
+      }
+    }
+    
+    function renderSimpleCard(p) {
+      const price = p.discount > 0 ? (p.price * (1 - p.discount/100)).toFixed(2) : p.price;
+      return `
+        <div class="card h-100">
+          <img src="${p.image}" class="card-img-top" alt="${p.name}" style="aspect-ratio:1; object-fit:cover;">
+          <div class="card-body">
+            <h5 class="card-title" style="font-size:0.9rem;">${p.name}</h5>
+            <p class="text-primary fw-bold">€${price}</p>
+            <a href="prodotto.html?id=${p.id}" class="btn btn-sm btn-outline-primary">Vedi prodotto</a>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

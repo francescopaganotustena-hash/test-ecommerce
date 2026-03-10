@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dettaglio Ordine | TechStore</title>
+  <meta name="description" content="Dettaglio ordine TechStore con articoli, stato spedizione e dati cliente.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    .order-detail-section {
+      padding: var(--spacing-xxl) 0;
+      min-height: 65vh;
+    }
+    .order-card {
+      background: var(--bg-white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-xl);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--spacing-lg);
+    }
+    .order-id {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border-radius: var(--radius-full);
+      padding: 0.35rem 0.7rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+    .status-pending { background: #fff3cd; color: #856404; }
+    .status-shipped { background: #d1ecf1; color: #0c5460; }
+    .status-delivered { background: #d4edda; color: #155724; }
+    .status-cancelled { background: #f8d7da; color: #721c24; }
+    .order-item {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .order-item:last-child {
+      border-bottom: 0;
+    }
+    .order-item img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 0.6rem;
+      border: 1px solid var(--border-color);
+    }
+    .order-totals .row-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.55rem;
+    }
+    .order-totals .row-line.total {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .empty-state {
+      text-align: center;
+      padding: var(--spacing-xxl) var(--spacing-md);
+    }
+    @media (max-width: 576px) {
+      .order-item {
+        grid-template-columns: 56px 1fr;
+      }
+      .order-item .line-total {
+        grid-column: 1 / -1;
+        justify-self: end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+  <a href="#" class="scroll-top" aria-label="Torna su">↑</a>
+
+  <header class="header">
+    <div class="top-bar">
+      <div class="container">
+        <div class="top-bar-links justify-content-between">
+          <div>
+            <span>📞 02 1234 5678</span>
+            <span class="mx-2">|</span>
+            <span>📧 info@techstore.it</span>
+          </div>
+          <div class="d-none d-md-flex">
+            <a href="contatti.html">Contatti</a>
+            <span class="mx-2">|</span>
+            <a href="chi-siamo.html">Chi Siamo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="header-main">
+      <div class="container">
+        <div class="d-flex align-items-center">
+          <button class="mobile-menu-toggle me-2 d-lg-none" aria-label="Menu">☰</button>
+          <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+          <nav class="header-nav ms-4 d-none d-lg-flex">
+            <a href="catalogo.html">Catalogo</a>
+            <a href="catalogo.html?category=smartphone">Smartphone</a>
+            <a href="catalogo.html?category=televisori">TV</a>
+            <a href="catalogo.html?category=notebook">Notebook</a>
+          </nav>
+          <div class="header-actions ms-auto">
+            <a href="carrello.html" class="header-action">
+              🛒 <span class="cart-count" style="display: none;">0</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu">
+    <div class="mobile-menu-header">
+      <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+      <button class="mobile-menu-close" aria-label="Chiudi menu">✕</button>
+    </div>
+    <nav class="mobile-menu-nav">
+      <a href="index.html">Home</a>
+      <a href="catalogo.html">Catalogo</a>
+      <a href="catalogo.html?category=smartphone">Smartphone</a>
+      <a href="catalogo.html?category=televisori">TV</a>
+      <a href="catalogo.html?category=notebook">Notebook</a>
+      <a href="carrello.html">Carrello</a>
+      <a href="account.html">Area Cliente</a>
+    </nav>
+  </div>
+  <div class="mobile-menu-overlay"></div>
+
+  <main id="main-content">
+    <section class="order-detail-section">
+      <div class="container">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+          <h1 class="mb-0">Dettaglio Ordine</h1>
+          <a href="account.html" class="btn btn-outline-primary">← Torna ai miei ordini</a>
+        </div>
+
+        <div id="order-detail-container">
+          <div class="order-card">
+            <p class="mb-0 text-muted">Caricamento ordine...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <a href="index.html" class="header-logo mb-3 d-inline-block" style="color: white;">🔌 Tech<span>Store</span></a>
+              <p style="opacity: 0.8; line-height: 1.6;">Il tuo shop di fiducia per l'elettronica di consumo.</p>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="footer-section">
+              <h4 class="footer-title">Contatti</h4>
+              <div class="footer-contact-item"><span>📞</span><span>02 1234 5678</span></div>
+              <div class="footer-contact-item"><span>📧</span><span>info@techstore.it</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p style="margin: 0; opacity: 0.8;">© 2024 TechStore. Tutti i diritti riservati.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function sanitizeImageSrc(src) {
+      const value = String(src || '').trim();
+      if (
+        value.startsWith('assets/') ||
+        value.startsWith('./assets/') ||
+        value.startsWith('../assets/') ||
+        value.startsWith('http://') ||
+        value.startsWith('https://') ||
+        value.startsWith('data:image/')
+      ) {
+        return escapeHtml(value);
+      }
+      return 'assets/images/products/placeholder-product.svg';
+    }
+
+    function statusInfo(status) {
+      if (status === 'shipped') return { cls: 'status-shipped', label: 'Spedito', icon: '🚚' };
+      if (status === 'delivered') return { cls: 'status-delivered', label: 'Consegnato', icon: '✅' };
+      if (status === 'cancelled') return { cls: 'status-cancelled', label: 'Annullato', icon: '✖' };
+      return { cls: 'status-pending', label: 'In elaborazione', icon: '⏳' };
+    }
+
+    function formatPayment(method) {
+      const key = String(method || '').toLowerCase();
+      if (key.includes('paypal')) return 'PayPal';
+      if (key.includes('bank') || key.includes('bonifico')) return 'Bonifico';
+      return 'Carta di credito/debito';
+    }
+
+    function renderNotFound(message) {
+      const container = document.getElementById('order-detail-container');
+      container.innerHTML = `
+        <div class="order-card empty-state">
+          <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+          <h2 class="h4 mb-2">${escapeHtml(message)}</h2>
+          <p class="text-muted mb-4">Controlla l'ID ordine o torna all'area cliente.</p>
+          <a href="account.html" class="btn btn-primary">Vai all'area cliente</a>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const session = JSON.parse(localStorage.getItem('techstore_session') || 'null');
+      if (!session || !session.loggedIn) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const orderId = params.get('id');
+      if (!orderId) {
+        renderNotFound('Ordine non specificato');
+        return;
+      }
+
+      const orders = JSON.parse(localStorage.getItem('techstore_orders') || '[]');
+      const order = orders.find((o) => String(o.orderId) === String(orderId));
+      if (!order) {
+        renderNotFound('Ordine non trovato');
+        return;
+      }
+
+      const status = statusInfo(order.status);
+      const date = new Date(order.date);
+      const formattedDate = date.toLocaleDateString('it-IT', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+
+      const itemsHtml = (order.items || []).map((item) => `
+        <div class="order-item">
+          <img src="${sanitizeImageSrc(item.image)}" alt="${escapeHtml(item.name)}">
+          <div>
+            <div class="fw-bold">${escapeHtml(item.name)}</div>
+            <div class="text-muted small">${escapeHtml(item.brand || 'Brand non disponibile')} · Qta: ${Number(item.quantity) || 1}</div>
+          </div>
+          <div class="line-total fw-bold">€${((Number(item.price) || 0) * (Number(item.quantity) || 1)).toFixed(2)}</div>
+        </div>
+      `).join('');
+
+      const subtotal = Number(order.subtotal) || 0;
+      const discountAmount = Number(order.discountAmount) || 0;
+      const shipping = Number(order.shipping) || 0;
+      const total = Number(order.total) || subtotal + shipping - discountAmount;
+      const customer = order.customer || {};
+
+      const container = document.getElementById('order-detail-container');
+      container.innerHTML = `
+        <div class="order-card">
+          <div class="d-flex flex-wrap justify-content-between align-items-start gap-2">
+            <div>
+              <div class="order-id">Ordine #${escapeHtml(order.orderId)}</div>
+              <div class="text-muted">Effettuato il ${formattedDate}</div>
+            </div>
+            <span class="status-badge ${status.cls}">${status.icon} ${status.label}</span>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-lg-8">
+            <div class="order-card">
+              <h2 class="h5 mb-3">Articoli ordinati</h2>
+              ${itemsHtml || '<p class="text-muted mb-0">Nessun articolo presente.</p>'}
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="order-card">
+              <h2 class="h5 mb-3">Riepilogo</h2>
+              <div class="order-totals">
+                <div class="row-line"><span>Subtotale</span><span>€${subtotal.toFixed(2)}</span></div>
+                ${discountAmount > 0 ? `<div class="row-line text-success"><span>Sconto</span><span>-€${discountAmount.toFixed(2)}</span></div>` : ''}
+                <div class="row-line"><span>Spedizione</span><span>${shipping === 0 ? 'GRATIS' : `€${shipping.toFixed(2)}`}</span></div>
+                <div class="row-line total"><span>Totale</span><span>€${total.toFixed(2)}</span></div>
+              </div>
+            </div>
+
+            <div class="order-card">
+              <h2 class="h5 mb-3">Spedizione e pagamento</h2>
+              <p class="mb-1"><strong>Destinatario:</strong> ${escapeHtml((customer.firstname || '') + ' ' + (customer.lastname || ''))}</p>
+              <p class="mb-1"><strong>Indirizzo:</strong> ${escapeHtml(customer.address || '-')}</p>
+              <p class="mb-1"><strong>Città:</strong> ${escapeHtml((customer.zip || '') + ' ' + (customer.city || ''))}</p>
+              <p class="mb-1"><strong>Provincia:</strong> ${escapeHtml(customer.province || '-')}</p>
+              <p class="mb-1"><strong>Email:</strong> ${escapeHtml(customer.email || '-')}</p>
+              <p class="mb-0"><strong>Pagamento:</strong> ${escapeHtml(formatPayment(order.paymentMethod))}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
