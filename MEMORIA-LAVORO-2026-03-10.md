@@ -46,6 +46,10 @@
 14. Collegamento pagine legali nei punti di consenso e footer:
    - File modificati: `index.html`, `checkout.html`, `login.html`, `registrazione.html`
    - Link aggiornati per: Privacy Policy, Cookie Policy, Termini e Condizioni.
+15. Correzione coerenza link legali su tutte le pagine:
+   - Fix footer policy in `catalogo.html` (erano ancora placeholder `#`).
+   - Fix link privacy nel form contatti in `contatti.html`.
+   - Verifica globale eseguita sui riferimenti Privacy/Cookie/Termini.
 
 ## Stato attuale
 
@@ -56,6 +60,7 @@
 - Login Admin verificato funzionante sia su `localhost` sia su IP LAN
 - Nuove pagine assistenza create e collegate in modo coerente nel sito
 - Pagine legali create e linkate nei footer e nelle checkbox di consenso
+- Coerenza link policy verificata anche su catalogo e contatti
 
 ## Comandi utili
 
