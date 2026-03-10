@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PORT="${1:-8000}"
+HOST="${HOST:-0.0.0.0}"
+
+if command -v python3 >/dev/null 2>&1; then
+  PYTHON_BIN="python3"
+elif command -v python >/dev/null 2>&1; then
+  PYTHON_BIN="python"
+else
+  echo "Errore: Python non trovato. Installa python3 per avviare il server locale."
+  exit 1
+fi
+
+echo "Avvio TechStore su http://${HOST}:${PORT}"
+echo "Raggiungibile in rete locale anche tramite IP macchina (es. http://10.0.0.x:${PORT})"
+exec "${PYTHON_BIN}" -m http.server "${PORT}" --bind "${HOST}"
