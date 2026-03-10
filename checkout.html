@@ -558,10 +558,29 @@
           const discountAmount = cart.getDiscountAmount();
           const orderId = 'TS' + Date.now().toString().slice(-6);
 
+          const session = (() => {
+            try {
+              return JSON.parse(localStorage.getItem('techstore_session') || 'null');
+            } catch (error) {
+              return null;
+            }
+          })();
+          const user = (() => {
+            try {
+              return JSON.parse(localStorage.getItem('techstore_user') || 'null');
+            } catch (error) {
+              return null;
+            }
+          })();
+          const normalizedUserEmail = String((user && user.email) || (session && session.email) || formData.get('email') || '').trim().toLowerCase();
+          const normalizedUserId = String((user && user.id) || (session && session.userId) || '').trim();
+
           // Crea oggetto ordine
           const orderData = {
             orderId,
             date: new Date().toISOString(),
+            userId: normalizedUserId || null,
+            userEmail: normalizedUserEmail || null,
             customer: {
               firstname: formData.get('firstname'),
               lastname: formData.get('lastname'),

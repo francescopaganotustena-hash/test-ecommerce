@@ -236,6 +236,40 @@
       return 'Carta di credito/debito';
     }
 
+    function safeParseJson(value, fallback) {
+      try {
+        const parsed = JSON.parse(value);
+        return parsed ?? fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function getCurrentUserContext() {
+      const session = safeParseJson(localStorage.getItem('techstore_session') || 'null', null);
+      const user = safeParseJson(localStorage.getItem('techstore_user') || 'null', null);
+      if (!session || !session.loggedIn) return null;
+
+      return {
+        session,
+        userId: String((user && user.id) || session.userId || '').trim(),
+        email: String((user && user.email) || session.email || '').trim().toLowerCase()
+      };
+    }
+
+    function isOrderOwnedByCurrentUser(order, context) {
+      if (!context || !order) return false;
+
+      const orderUserId = String(order.userId || '').trim();
+      const orderEmail = String(order.userEmail || order.customer?.email || '').trim().toLowerCase();
+
+      if (context.userId && orderUserId) {
+        return context.userId === orderUserId;
+      }
+
+      return Boolean(context.email) && orderEmail === context.email;
+    }
+
     function renderNotFound(message) {
       const container = document.getElementById('order-detail-container');
       container.innerHTML = `
@@ -249,7 +283,8 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      const session = JSON.parse(localStorage.getItem('techstore_session') || 'null');
+      const userContext = getCurrentUserContext();
+      const session = userContext ? userContext.session : null;
       if (!session || !session.loggedIn) {
         window.location.href = 'login.html';
         return;
@@ -262,8 +297,10 @@
         return;
       }
 
-      const orders = JSON.parse(localStorage.getItem('techstore_orders') || '[]');
-      const order = orders.find((o) => String(o.orderId) === String(orderId));
+      const orders = safeParseJson(localStorage.getItem('techstore_orders') || '[]', []);
+      const order = orders.find((o) => (
+        String(o.orderId) === String(orderId) && isOrderOwnedByCurrentUser(o, userContext)
+      ));
       if (!order) {
         renderNotFound('Ordine non trovato');
         return;

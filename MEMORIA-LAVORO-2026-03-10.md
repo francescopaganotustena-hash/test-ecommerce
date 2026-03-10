@@ -55,6 +55,23 @@
    - Aggiornati componenti principali in `css/components.css` (header, nav, hero, features, product card, footer, responsive).
    - Aggiornato font link in `index.html` a `Manrope` + `Space Grotesk`.
    - Obiettivo: avvicinare look-and-feel al template richiesto mantenendo struttura esistente.
+17. Verifica Git completa delle ultime modifiche:
+   - Commit e push eseguiti su `main`.
+   - Commit: `5ab0306`
+   - Messaggio: `Rimuove cartella Template e aggiorna file frontend`
+18. Verifica sincronizzazione immagini catalogo:
+   - Confronto immagini locali vs immagini tracciate su Git e su `origin/main`.
+   - Esito: sincronizzate, nessuna differenza da pushare.
+19. Fix anomalia pagina "I Miei Ordini" (ordini mostrati al primo accesso):
+   - Root cause: ordini hardcoded in `miei-ordini.html`.
+   - `miei-ordini.html` convertita a rendering dinamico da `localStorage`.
+   - Aggiunto filtro ordini per utente autenticato in `miei-ordini.html`, `account.html`, `ordine.html`.
+   - Aggiunto salvataggio metadati proprietario ordine (`userId`, `userEmail`) in `checkout.html`.
+   - Verifica eseguita con test E2E: `50/50` passati.
+20. Regolazione larghezza immagine hero in homepage:
+   - Rimosso vincolo inline `max-width: 400px` da `index.html`.
+   - Aumentata larghezza immagine hero via CSS in `css/components.css` (`width: min(100%, 560px)`).
+   - Allineamento desktop a destra e fallback centrato su viewport <= `992px`.
 
 ## Stato attuale
 
@@ -67,6 +84,8 @@
 - Pagine legali create e linkate nei footer e nelle checkbox di consenso
 - Coerenza link policy verificata anche su catalogo e contatti
 - Frontend home re-stilizzato con visual direction premium/tech più vicina al riferimento richiesto
+- Flusso ordini aggiornato: visualizzazione coerente solo per utente loggato (niente ordini demo hardcoded)
+- Hero home aggiornata con immagine flottante più larga su desktop
 
 ## Comandi utili
 

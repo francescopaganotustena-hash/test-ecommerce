@@ -369,9 +369,45 @@
   <script src="js/main.js"></script>
 
   <script>
+    function safeParseJson(value, fallback) {
+      try {
+        const parsed = JSON.parse(value);
+        return parsed ?? fallback;
+      } catch (error) {
+        return fallback;
+      }
+    }
+
+    function getCurrentUserContext() {
+      const session = safeParseJson(localStorage.getItem('techstore_session') || 'null', null);
+      const user = safeParseJson(localStorage.getItem('techstore_user') || 'null', null);
+      if (!session || !session.loggedIn) return null;
+
+      return {
+        session,
+        user,
+        userId: String((user && user.id) || session.userId || '').trim(),
+        email: String((user && user.email) || session.email || '').trim().toLowerCase()
+      };
+    }
+
+    function isOrderOwnedByCurrentUser(order, context) {
+      if (!context || !order) return false;
+
+      const orderUserId = String(order.userId || '').trim();
+      const orderEmail = String(order.userEmail || order.customer?.email || '').trim().toLowerCase();
+
+      if (context.userId && orderUserId) {
+        return context.userId === orderUserId;
+      }
+
+      return Boolean(context.email) && orderEmail === context.email;
+    }
+
     // Check session on page load
     document.addEventListener('DOMContentLoaded', function() {
-      const session = JSON.parse(localStorage.getItem('techstore_session') || 'null');
+      const context = getCurrentUserContext();
+      const session = context ? context.session : null;
       if (!session || !session.loggedIn) {
         window.location.href = 'login.html';
         return;
@@ -434,7 +470,9 @@
     }
 
     function loadOrders() {
-      const orders = JSON.parse(localStorage.getItem('techstore_orders') || '[]');
+      const context = getCurrentUserContext();
+      const allOrders = safeParseJson(localStorage.getItem('techstore_orders') || '[]', []);
+      const orders = allOrders.filter(order => isOrderOwnedByCurrentUser(order, context));
       const container = document.getElementById('orders-list');
 
       if (orders.length === 0) {
@@ -473,14 +511,14 @@
           statusText = 'Annullato';
         }
 
-        const itemsHtml = order.items.map(item => `
+        const itemsHtml = (order.items || []).map(item => `
           <div class="order-item">
             <img src="${sanitizeImageSrc(item.image)}" alt="${escapeHtml(item.name)}">
             <div class="order-item-info">
               <p class="mb-0">${escapeHtml(item.name)}</p>
-              <small>Qty: ${item.quantity}</small>
+              <small>Qty: ${Number(item.quantity) || 1}</small>
             </div>
-            <strong>€${(item.price * item.quantity).toFixed(2)}</strong>
+            <strong>€${((Number(item.price) || 0) * (Number(item.quantity) || 1)).toFixed(2)}</strong>
           </div>
         `).join('');
 
@@ -497,7 +535,7 @@
               ${itemsHtml}
             </div>
             <div class="order-footer">
-              <div class="order-total">Totale: €${order.total.toFixed(2)}</div>
+              <div class="order-total">Totale: €${(Number(order.total) || 0).toFixed(2)}</div>
               <div class="order-actions">
                 <button class="btn btn-outline-primary" onclick="goToOrderDetails('${order.orderId}')">
                   Dettagli
@@ -510,8 +548,8 @@
     }
 
     function loadProfile() {
-      const session = JSON.parse(localStorage.getItem('techstore_session') || 'null');
-      const user = JSON.parse(localStorage.getItem('techstore_user') || 'null');
+      const session = safeParseJson(localStorage.getItem('techstore_session') || 'null', null);
+      const user = safeParseJson(localStorage.getItem('techstore_user') || 'null', null);
 
       if (!user) return;
 
