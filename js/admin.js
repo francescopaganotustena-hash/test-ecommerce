@@ -124,7 +124,10 @@ class AdminAuth {
   showDashboard() {
     document.getElementById('login-screen').classList.add('d-none');
     document.getElementById('admin-dashboard').classList.remove('d-none');
-    adminProducts.init();
+    if (adminProducts && typeof adminProducts.init === 'function') {
+      adminProducts.init();
+      adminProducts.renderProductsTable();
+    }
   }
 }
 
@@ -137,7 +140,7 @@ class AdminProducts {
     this.products = [];
     this.currentEditId = null;
     this.deleteId = null;
-    this.init();
+    this.initialized = false;
   }
 
   escapeHtml(value) {
@@ -165,6 +168,8 @@ class AdminProducts {
   }
 
   init() {
+    if (this.initialized) return;
+    this.initialized = true;
     this.loadProducts();
     this.bindEvents();
     this.renderProductsTable();
@@ -632,8 +637,8 @@ let adminAuth;
 let adminProducts;
 
 document.addEventListener('DOMContentLoaded', () => {
-  adminAuth = new AdminAuth();
   adminProducts = new AdminProducts();
+  adminAuth = new AdminAuth();
 });
 
 // Espone le funzioni globalmente per gli onclick
