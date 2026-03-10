@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resi e Rimborsi | TechStore</title>
+  <meta name="description" content="Procedura resi e tempistiche di rimborso TechStore.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    .service-hero { background: linear-gradient(135deg, #6b4f00, #f39c12); color: white; padding: var(--spacing-xxl) 0; text-align: center; }
+    .service-section { padding: var(--spacing-xxl) 0; }
+    .step { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--spacing-lg); margin-bottom: var(--spacing-md); }
+    .service-links { background: var(--bg-light); border-radius: var(--radius-lg); padding: var(--spacing-lg); display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin-top: var(--spacing-lg); }
+    .service-links a { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 999px; text-decoration: none; background: white; border: 1px solid var(--border-color); color: var(--text-dark); font-weight: 500; font-size: 0.9rem; }
+    .service-links a.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+  <header class="header"><div class="header-main"><div class="container"><a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a></div></div></header>
+  <div class="breadcrumb-section"><div class="container"><nav class="breadcrumb"><span class="breadcrumb-item"><a href="index.html">Home</a></span><span class="breadcrumb-separator">/</span><span class="breadcrumb-item active">Resi e Rimborsi</span></nav></div></div>
+
+  <main id="main-content">
+    <section class="service-hero"><div class="container"><h1>Resi e Rimborsi</h1><p>Procedura semplice in 3 passaggi.</p></div></section>
+    <section class="service-section">
+      <div class="container">
+        <div class="step"><h3>1. Richiesta reso</h3><p>Hai 14 giorni dalla consegna per aprire la richiesta dall'area ordini.</p></div>
+        <div class="step"><h3>2. Spedizione articolo</h3><p>Ricevi etichetta prepagata via email. Imballa il prodotto con accessori originali.</p></div>
+        <div class="step"><h3>3. Verifica e rimborso</h3><p>Dopo il controllo qualità, il rimborso parte entro 5 giorni lavorativi sul metodo di pagamento originale.</p></div>
+
+        <div class="alert alert-warning mt-4" role="alert">
+          Per prodotti danneggiati o difettosi all'arrivo, apri segnalazione entro 48 ore con foto.
+        </div>
+
+        <div class="service-links">
+          <a href="area-cliente.html">Area Cliente</a>
+          <a href="miei-ordini.html">I Miei Ordini</a>
+          <a href="spedizioni.html">Spedizioni</a>
+          <a class="active" href="resi-rimborsi.html">Resi e Rimborsi</a>
+          <a href="garanzia.html">Garanzia</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

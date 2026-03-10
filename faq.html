@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | TechStore</title>
+  <meta name="description" content="Domande frequenti su ordini, pagamenti, spedizioni, resi e garanzia.">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔌</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <style>
+    .service-hero { background: linear-gradient(135deg, #4a2f8f, #7a45d6); color: white; padding: var(--spacing-xxl) 0; text-align: center; }
+    .service-section { padding: var(--spacing-xxl) 0; }
+    .faq-item { background: var(--bg-white); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--spacing-lg); margin-bottom: var(--spacing-md); }
+    .faq-item h3 { font-size: 1.1rem; margin-bottom: var(--spacing-sm); }
+    .service-links { background: var(--bg-light); border-radius: var(--radius-lg); padding: var(--spacing-lg); display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin-top: var(--spacing-lg); }
+    .service-links a { display: inline-block; padding: 0.4rem 0.8rem; border-radius: 999px; text-decoration: none; background: white; border: 1px solid var(--border-color); color: var(--text-dark); font-weight: 500; font-size: 0.9rem; }
+    .service-links a.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+  <header class="header"><div class="header-main"><div class="container"><a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a></div></div></header>
+  <div class="breadcrumb-section"><div class="container"><nav class="breadcrumb"><span class="breadcrumb-item"><a href="index.html">Home</a></span><span class="breadcrumb-separator">/</span><span class="breadcrumb-item active">FAQ</span></nav></div></div>
+
+  <main id="main-content">
+    <section class="service-hero"><div class="container"><h1>FAQ</h1><p>Risposte rapide alle domande piu frequenti.</p></div></section>
+    <section class="service-section">
+      <div class="container">
+        <div class="faq-item"><h3>Come trovo la fattura del mio ordine?</h3><p>Vai in Area Cliente > I Miei Ordini, seleziona l'ordine e clicca su "Scarica fattura".</p></div>
+        <div class="faq-item"><h3>Posso cambiare indirizzo dopo l'acquisto?</h3><p>Si, finche l'ordine non passa allo stato "In preparazione" puoi modificarlo dal dettaglio ordine.</p></div>
+        <div class="faq-item"><h3>Quali metodi di pagamento accettate?</h3><p>Carta, PayPal, bonifico e pagamento rateale su prodotti idonei.</p></div>
+        <div class="faq-item"><h3>Quando ricevero il rimborso?</h3><p>Di norma entro 5 giorni lavorativi dal controllo del reso in magazzino.</p></div>
+
+        <div class="service-links">
+          <a href="area-cliente.html">Area Cliente</a>
+          <a href="miei-ordini.html">I Miei Ordini</a>
+          <a href="spedizioni.html">Spedizioni</a>
+          <a href="resi-rimborsi.html">Resi e Rimborsi</a>
+          <a href="garanzia.html">Garanzia</a>
+          <a class="active" href="faq.html">FAQ</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

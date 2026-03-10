@@ -23,14 +23,31 @@
    - File: `js/admin.js`
    - Commit: `ad969bf`
    - Messaggio: `Fix admin login on LAN by adding SHA-256 fallback`
+9. Verifica stato repository e sincronizzazione commit:
+   - Branch locale/remoto verificati allineati su `main`.
+   - Verifica storico commit recente eseguita.
+10. Creazione sottopagine "Servizio Clienti" richieste:
+   - `area-cliente.html`
+   - `miei-ordini.html`
+   - `spedizioni.html`
+   - `resi-rimborsi.html`
+   - `garanzia.html`
+   - `faq.html`
+11. Aggiornamento link "Servizio Clienti" nella home:
+   - File modificato: `index.html`
+   - Link aggiornati verso le nuove sottopagine.
+12. Allineamento globale link assistenza/servizio clienti:
+   - File modificati: `catalogo.html`, `prodotto.html`, `login.html`, `account.html`
+   - Uniformati i link a: Area Cliente, I Miei Ordini, Spedizioni, Resi e Rimborsi, Garanzia, FAQ.
 
 ## Stato attuale
 
 - Branch: `main`
 - Remote: `origin`
-- Push: allineato con GitHub fino al commit `ad969bf`
+- Working tree: modifiche locali presenti (pagine assistenza e link footer/header aggiornati)
 - Script avvio disponibile e funzionante: `avvia-sito`
 - Login Admin verificato funzionante sia su `localhost` sia su IP LAN
+- Nuove pagine assistenza create e collegate in modo coerente nel sito
 
 ## Comandi utili
 
@@ -40,6 +57,8 @@
   - `./avvia-sito 8080`
 - Test E2E:
   - `node test-e2e.js`
+- Stato modifiche:
+  - `git status --short`
 
 ## Nota sicurezza
 
