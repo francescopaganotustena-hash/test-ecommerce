@@ -866,7 +866,11 @@ const categories = [
 // Carica prodotti da localStorage se disponibili (per sync con admin)
 const storedProducts = localStorage.getItem('techstore_products');
 if (storedProducts) {
-  products = JSON.parse(storedProducts);
+  try {
+    products = JSON.parse(storedProducts);
+  } catch (e) {
+    console.warn('Impossibile leggere techstore_products dal localStorage, uso dataset di default.', e);
+  }
 } else {
   // Forza immagini locali stabili per ogni prodotto (una per ID).
   products.forEach((product) => {
@@ -875,6 +879,14 @@ if (storedProducts) {
     product.images = [localImage];
   });
 }
+
+// Uniforma sempre le immagini al set versionato su Git.
+// In questo modo il catalogo usa file in assets/ e non dipende da immagini locali (es. localStorage/admin).
+products.forEach((product) => {
+  const localImage = `assets/images/products/p${product.id}.jpg`;
+  product.image = localImage;
+  product.images = [localImage];
+});
 
 // Brand disponibili
 const brands = [...new Set(products.map(p => p.brand))].sort();

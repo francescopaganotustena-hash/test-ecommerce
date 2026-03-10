@@ -50,6 +50,11 @@
    - Fix footer policy in `catalogo.html` (erano ancora placeholder `#`).
    - Fix link privacy nel form contatti in `contatti.html`.
    - Verifica globale eseguita sui riferimenti Privacy/Cookie/Termini.
+16. Restyling frontend orientato a template e-commerce premium (stile Wix electronics):
+   - Aggiornata skin globale in `css/style.css` (palette, tipografia, ombre, background, radius).
+   - Aggiornati componenti principali in `css/components.css` (header, nav, hero, features, product card, footer, responsive).
+   - Aggiornato font link in `index.html` a `Manrope` + `Space Grotesk`.
+   - Obiettivo: avvicinare look-and-feel al template richiesto mantenendo struttura esistente.
 
 ## Stato attuale
 
@@ -61,6 +66,7 @@
 - Nuove pagine assistenza create e collegate in modo coerente nel sito
 - Pagine legali create e linkate nei footer e nelle checkbox di consenso
 - Coerenza link policy verificata anche su catalogo e contatti
+- Frontend home re-stilizzato con visual direction premium/tech più vicina al riferimento richiesto
 
 ## Comandi utili
 

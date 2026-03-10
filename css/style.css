@@ -839,3 +839,83 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 999px;
   font-weight: 700;
 }
+
+/* ========================================
+   RESTYLING CYCLE 5 - ELECTRO STORE SKIN
+   ======================================== */
+:root {
+  --primary-blue: #101827;
+  --primary-dark: #05070d;
+  --accent-orange: #f97316;
+  --accent-hover: #ea580c;
+  --bg-light: #eef2f7;
+  --bg-white: #ffffff;
+  --text-dark: #0f172a;
+  --text-muted: #586278;
+  --text-light: #8a93a7;
+  --success-green: #16a34a;
+  --danger-red: #dc2626;
+  --border-color: #dbe2ec;
+
+  --font-primary: 'Manrope', 'Avenir Next', 'Segoe UI', sans-serif;
+  --font-heading: 'Space Grotesk', 'Avenir Next', sans-serif;
+
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  --shadow-sm: 0 10px 24px rgba(9, 18, 35, 0.08);
+  --shadow-md: 0 22px 44px rgba(9, 18, 35, 0.14);
+  --shadow-lg: 0 34px 70px rgba(9, 18, 35, 0.19);
+}
+
+body {
+  background:
+    radial-gradient(1100px 520px at 100% -20%, rgba(79, 70, 229, 0.11), transparent 55%),
+    radial-gradient(900px 420px at 0% -15%, rgba(249, 115, 22, 0.08), transparent 58%),
+    linear-gradient(180deg, #f5f8fc 0%, #ebf1f8 100%);
+  color: var(--text-dark);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.section-title h2 {
+  letter-spacing: -0.03em;
+}
+
+.btn {
+  border-radius: 999px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary,
+.btn-accent {
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+}
+
+.card {
+  border: 1px solid rgba(219, 226, 236, 0.95);
+  backdrop-filter: saturate(1.1);
+}
+
+@keyframes riseFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
