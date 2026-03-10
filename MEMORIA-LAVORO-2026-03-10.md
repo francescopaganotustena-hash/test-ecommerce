@@ -72,6 +72,18 @@
    - Rimosso vincolo inline `max-width: 400px` da `index.html`.
    - Aumentata larghezza immagine hero via CSS in `css/components.css` (`width: min(100%, 560px)`).
    - Allineamento desktop a destra e fallback centrato su viewport <= `992px`.
+21. Fix sincronizzazione immagini catalogo tra admin e sito:
+   - File: `js/products.js`
+   - Rimossa sovrascrittura forzata immagini su `assets/images/products/p{id}.jpg`.
+   - Mantenuta sorgente immagini da `techstore_products` (localStorage/admin) con fallback sicuro.
+   - Commit: `d7dbf69`
+   - Messaggio: `Fix catalog image sync by honoring admin-managed product images`
+22. Fix gestione URL immagini nel pannello admin:
+   - File: `js/admin.js`, `js/products.js`
+   - Bloccati URL esterni `http/https` in salvataggio prodotto admin.
+   - Consentiti solo percorsi locali (`assets/...`) o upload (`data:image/...`).
+   - Aggiunta normalizzazione automatica delle immagini già persistite non valide verso placeholder.
+   - Verifica dedicata eseguita con browser automation + test E2E (`50/50` passati).
 
 ## Stato attuale
 
@@ -86,6 +98,8 @@
 - Frontend home re-stilizzato con visual direction premium/tech più vicina al riferimento richiesto
 - Flusso ordini aggiornato: visualizzazione coerente solo per utente loggato (niente ordini demo hardcoded)
 - Hero home aggiornata con immagine flottante più larga su desktop
+- Flusso immagini catalogo allineato: modifiche da gestione admin propagate sul sito senza override forzati
+- URL esterni immagini non più persistibili in admin; dataset normalizzato automaticamente
 
 ## Comandi utili
 

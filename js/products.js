@@ -869,8 +869,6 @@ function isAllowedImageSource(src) {
     value.startsWith('assets/') ||
     value.startsWith('./assets/') ||
     value.startsWith('../assets/') ||
-    value.startsWith('http://') ||
-    value.startsWith('https://') ||
     value.startsWith('data:image/')
   );
 }

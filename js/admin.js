@@ -252,16 +252,34 @@ class AdminProducts {
       .replaceAll("'", '&#39;');
   }
 
-  sanitizeImageSrc(src) {
+  isAllowedCatalogImageSource(src) {
     const value = String(src || '').trim();
-    if (
+    return (
       value.startsWith('assets/') ||
       value.startsWith('./assets/') ||
       value.startsWith('../assets/') ||
-      value.startsWith('http://') ||
-      value.startsWith('https://') ||
       value.startsWith('data:image/')
-    ) {
+    );
+  }
+
+  normalizeProductImages(product) {
+    const normalizedImage = this.isAllowedCatalogImageSource(product.image)
+      ? String(product.image).trim()
+      : ADMIN_CONFIG.defaultImage;
+    const normalizedImages = Array.isArray(product.images)
+      ? product.images.filter((img) => this.isAllowedCatalogImageSource(img))
+      : [];
+
+    return {
+      ...product,
+      image: normalizedImage,
+      images: normalizedImages.length ? normalizedImages : [normalizedImage]
+    };
+  }
+
+  sanitizeImageSrc(src) {
+    const value = String(src || '').trim();
+    if (this.isAllowedCatalogImageSource(value)) {
       return this.escapeHtml(value);
     }
     return ADMIN_CONFIG.defaultImage;
@@ -279,16 +297,21 @@ class AdminProducts {
   loadProducts() {
     const stored = localStorage.getItem(ADMIN_CONFIG.storageKey);
     if (stored) {
-      this.products = JSON.parse(stored);
+      const parsedProducts = JSON.parse(stored);
+      this.products = Array.isArray(parsedProducts)
+        ? parsedProducts.map((product) => this.normalizeProductImages(product))
+        : [];
+      this.saveProducts();
     } else {
       // Usa i prodotti di default da products.js
-      this.products = [...TechStoreProducts.products];
+      this.products = [...TechStoreProducts.products].map((product) => this.normalizeProductImages(product));
       this.saveProducts();
     }
   }
 
   // Salva prodotti in localStorage
   saveProducts() {
+    this.products = this.products.map((product) => this.normalizeProductImages(product));
     localStorage.setItem(ADMIN_CONFIG.storageKey, JSON.stringify(this.products));
     // Aggiorna anche la variabile globale per il sito
     TechStoreProducts.products = this.products;
@@ -632,7 +655,12 @@ class AdminProducts {
       productImage = imageInput.dataset.uploadedImage;
     } else {
       // Usa l'URL inserito
-      productImage = imageInput?.value || ADMIN_CONFIG.defaultImage;
+      const typedValue = String(imageInput?.value || '').trim();
+      if (typedValue && !this.isAllowedCatalogImageSource(typedValue)) {
+        this.showToast('Sono consentiti solo percorsi locali (assets/...) o upload file.', 'error');
+        return;
+      }
+      productImage = typedValue || ADMIN_CONFIG.defaultImage;
     }
 
     const allowedCategories = ['televisori', 'smartphone', 'tablet', 'notebook', 'audio', 'smart-home'];
