@@ -853,6 +853,10 @@ let products = [
   }
 ];
 
+const defaultProductNameById = new Map(
+  products.map((product) => [Number(product.id) || 0, String(product.name || '').trim()])
+);
+
 // Categorie prodotti
 const categories = [
   { id: 'televisori', name: 'Televisori', icon: '📺', color: '#0066CC' },
@@ -873,6 +877,30 @@ function isAllowedImageSource(src) {
   );
 }
 
+function isLikelyUrl(value) {
+  return /^https?:\/\//i.test(String(value || '').trim());
+}
+
+function getSafeProductName(product) {
+  const rawName = String(product?.name || '').trim();
+  if (rawName && !isLikelyUrl(rawName)) {
+    return rawName;
+  }
+
+  const productId = Number(product?.id) || 0;
+  const fallbackName = String(defaultProductNameById.get(productId) || '').trim();
+  if (fallbackName) {
+    return fallbackName;
+  }
+
+  const brand = String(product?.brand || '').trim();
+  if (brand) {
+    return `${brand} prodotto`;
+  }
+
+  return productId ? `Prodotto ${productId}` : 'Prodotto senza nome';
+}
+
 function normalizeProductImageFields(product) {
   const fallback = 'assets/images/products/placeholder-product.svg';
   const mainImage = isAllowedImageSource(product.image) ? product.image : fallback;
@@ -880,6 +908,7 @@ function normalizeProductImageFields(product) {
 
   return {
     ...product,
+    name: getSafeProductName(product),
     image: mainImage,
     images: images.length > 0 ? images : [mainImage]
   };

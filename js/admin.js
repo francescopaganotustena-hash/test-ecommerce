@@ -262,6 +262,33 @@ class AdminProducts {
     );
   }
 
+  isLikelyUrl(value) {
+    return /^https?:\/\//i.test(String(value || '').trim());
+  }
+
+  getSafeProductName(product) {
+    const rawName = String(product?.name || '').trim();
+    if (rawName && !this.isLikelyUrl(rawName)) {
+      return rawName;
+    }
+
+    const productId = Number(product?.id) || 0;
+    const canonicalName = Array.isArray(window.TechStoreProducts?.products)
+      ? window.TechStoreProducts.products.find((p) => Number(p.id) === productId)?.name
+      : '';
+    const safeCanonical = String(canonicalName || '').trim();
+    if (safeCanonical && !this.isLikelyUrl(safeCanonical)) {
+      return safeCanonical;
+    }
+
+    const brand = String(product?.brand || '').trim();
+    if (brand) {
+      return `${brand} prodotto`;
+    }
+
+    return productId ? `Prodotto ${productId}` : 'Prodotto senza nome';
+  }
+
   normalizeProductImages(product) {
     const normalizedImage = this.isAllowedCatalogImageSource(product.image)
       ? String(product.image).trim()
@@ -272,6 +299,7 @@ class AdminProducts {
 
     return {
       ...product,
+      name: this.getSafeProductName(product),
       image: normalizedImage,
       images: normalizedImages.length ? normalizedImages : [normalizedImage]
     };
@@ -669,7 +697,7 @@ class AdminProducts {
 
     const productData = {
       id: this.currentEditId || this.getNextId(),
-      name: document.getElementById('product-name').value.trim(),
+      name: this.getSafeProductName({ id: this.currentEditId || this.getNextId(), brand: document.getElementById('product-brand').value.trim(), name: document.getElementById('product-name').value.trim() }),
       brand: document.getElementById('product-brand').value.trim(),
       category: safeCategory,
       description: document.getElementById('product-description').value.trim(),
