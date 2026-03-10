@@ -20,7 +20,7 @@ const ADMIN_CONFIG = {
 
 class AdminAuth {
   constructor() {
-    this.isAuthenticated = sessionStorage.getItem(ADMIN_CONFIG.authSessionKey) === 'true';
+    this.isAuthenticated = false;
     this.hasConfiguredPassword = Boolean(localStorage.getItem(ADMIN_CONFIG.passwordHashKey));
     this.init();
   }
@@ -36,11 +36,8 @@ class AdminAuth {
       logoutBtn.addEventListener('click', () => this.logout());
     }
 
-    if (this.isAuthenticated) {
-      this.showDashboard();
-      return;
-    }
-
+    // Per sicurezza, invalida eventuali sessioni legacy persistite.
+    sessionStorage.removeItem(ADMIN_CONFIG.authSessionKey);
     this.updateLoginStateUI();
   }
 
@@ -204,14 +201,12 @@ class AdminAuth {
       return;
     }
 
-    sessionStorage.setItem(ADMIN_CONFIG.authSessionKey, 'true');
     this.isAuthenticated = true;
     errorDiv.classList.add('d-none');
     this.showDashboard();
   }
 
   logout() {
-    sessionStorage.removeItem(ADMIN_CONFIG.authSessionKey);
     this.isAuthenticated = false;
     document.getElementById('login-screen').classList.remove('d-none');
     document.getElementById('admin-dashboard').classList.add('d-none');
