@@ -39,6 +39,13 @@
 12. Allineamento globale link assistenza/servizio clienti:
    - File modificati: `catalogo.html`, `prodotto.html`, `login.html`, `account.html`
    - Uniformati i link a: Area Cliente, I Miei Ordini, Spedizioni, Resi e Rimborsi, Garanzia, FAQ.
+13. Creazione pagine legali dedicate:
+   - `privacy-policy.html`
+   - `cookie-policy.html`
+   - `termini-condizioni.html`
+14. Collegamento pagine legali nei punti di consenso e footer:
+   - File modificati: `index.html`, `checkout.html`, `login.html`, `registrazione.html`
+   - Link aggiornati per: Privacy Policy, Cookie Policy, Termini e Condizioni.
 
 ## Stato attuale
 
@@ -48,6 +55,7 @@
 - Script avvio disponibile e funzionante: `avvia-sito`
 - Login Admin verificato funzionante sia su `localhost` sia su IP LAN
 - Nuove pagine assistenza create e collegate in modo coerente nel sito
+- Pagine legali create e linkate nei footer e nelle checkbox di consenso
 
 ## Comandi utili
 
