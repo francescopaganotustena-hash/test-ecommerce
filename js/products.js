@@ -863,30 +863,45 @@ const categories = [
   { id: 'smart-home', name: 'Smart Home', icon: '🏠', color: '#17A2B8' }
 ];
 
-// Carica prodotti da localStorage se disponibili (per sync con admin)
+function isAllowedImageSource(src) {
+  const value = String(src || '').trim();
+  return (
+    value.startsWith('assets/') ||
+    value.startsWith('./assets/') ||
+    value.startsWith('../assets/') ||
+    value.startsWith('http://') ||
+    value.startsWith('https://') ||
+    value.startsWith('data:image/')
+  );
+}
+
+function normalizeProductImageFields(product) {
+  const fallback = 'assets/images/products/placeholder-product.svg';
+  const mainImage = isAllowedImageSource(product.image) ? product.image : fallback;
+  const images = Array.isArray(product.images) ? product.images.filter(isAllowedImageSource) : [];
+
+  return {
+    ...product,
+    image: mainImage,
+    images: images.length > 0 ? images : [mainImage]
+  };
+}
+
+// Carica prodotti da localStorage se disponibili (sync con gestione catalogo/admin)
 const storedProducts = localStorage.getItem('techstore_products');
 if (storedProducts) {
   try {
-    products = JSON.parse(storedProducts);
+    const parsedProducts = JSON.parse(storedProducts);
+    if (Array.isArray(parsedProducts) && parsedProducts.length > 0) {
+      products = parsedProducts.map(normalizeProductImageFields);
+    }
   } catch (e) {
     console.warn('Impossibile leggere techstore_products dal localStorage, uso dataset di default.', e);
   }
-} else {
-  // Forza immagini locali stabili per ogni prodotto (una per ID).
-  products.forEach((product) => {
-    const localImage = `assets/images/products/p${product.id}.jpg`;
-    product.image = localImage;
-    product.images = [localImage];
-  });
 }
 
-// Uniforma sempre le immagini al set versionato su Git.
-// In questo modo il catalogo usa file in assets/ e non dipende da immagini locali (es. localStorage/admin).
-products.forEach((product) => {
-  const localImage = `assets/images/products/p${product.id}.jpg`;
-  product.image = localImage;
-  product.images = [localImage];
-});
+// Normalizza sempre il dataset attivo, senza forzare immagini locali per ID.
+products = products.map(normalizeProductImageFields);
 
 // Brand disponibili
 const brands = [...new Set(products.map(p => p.brand))].sort();
