@@ -248,13 +248,22 @@ function getProductImageFallback() {
       <defs>
         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#F5F7FA"/>
-          <stop offset="100%" stop-color="#E9ECEF"/>
+          <stop offset="100%" stop-color="#E2E8F0"/>
+        </linearGradient>
+        <linearGradient id="box" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#5B6B7D"/>
+          <stop offset="100%" stop-color="#2F3D4A"/>
         </linearGradient>
       </defs>
       <rect width="600" height="600" fill="url(#g)"/>
-      <g fill="#6C757D" text-anchor="middle">
-        <text x="300" y="270" font-size="76">📦</text>
-        <text x="300" y="330" font-size="26" font-family="Arial, sans-serif">Immagine non disponibile</text>
+      <g transform="translate(300 248)">
+        <rect x="-90" y="-70" width="180" height="140" rx="14" fill="url(#box)"/>
+        <path d="M-90 -20 L0 40 L90 -20" fill="none" stroke="#cbd5e1" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="0" cy="-6" r="14" fill="#cbd5e1"/>
+      </g>
+      <g fill="#334155" text-anchor="middle" font-family="Arial, sans-serif">
+        <text x="300" y="392" font-size="28" font-weight="700">TechStore</text>
+        <text x="300" y="425" font-size="24">Immagine non disponibile</text>
       </g>
     </svg>
   `;
