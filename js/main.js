@@ -469,6 +469,47 @@ function setupDeferredTracking() {
   window.setTimeout(start, 9000);
 }
 
+function setupServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+
+  const protocol = window.location.protocol;
+  const isAllowedProtocol = protocol === 'https:' || protocol === 'http:';
+  if (!isAllowedProtocol) return;
+
+  const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  if (protocol !== 'https:' && !isLocalhost) return;
+
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(() => {
+      // Fails silently: caching is progressive enhancement.
+    });
+  }, { once: true });
+}
+
+function optimizeImageLoading() {
+  const images = document.querySelectorAll('img');
+  if (!images.length) return;
+
+  images.forEach((img, index) => {
+    if (!img.getAttribute('decoding')) {
+      img.setAttribute('decoding', 'async');
+    }
+
+    const isAboveTheFoldImage =
+      index < 2 ||
+      img.id === 'main-image' ||
+      Boolean(img.closest('.hero-image, .hero-section, .hero-about, .hero-contact, .service-hero'));
+
+    if (!img.getAttribute('loading')) {
+      img.setAttribute('loading', isAboveTheFoldImage ? 'eager' : 'lazy');
+    }
+
+    if (img.getAttribute('loading') === 'lazy' && !img.getAttribute('fetchpriority')) {
+      img.setAttribute('fetchpriority', 'low');
+    }
+  });
+}
+
 // ============================================
 // FUNZIONI CARRELLO E LOGIN
 // ============================================
@@ -879,6 +920,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Tracking non critico (deferred)
   setupDeferredTracking();
+
+  // Cache applicativa non critica (PWA-like)
+  setupServiceWorker();
+
+  // Ottimizzazione caricamento immagini
+  optimizeImageLoading();
 
   // Inizializza pagina catalogo se presente
   if (document.getElementById('catalog-grid')) {

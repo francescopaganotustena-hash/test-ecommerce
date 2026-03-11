@@ -3033,3 +3033,28 @@ body {
     font-size: 0.7rem;
   }
 }
+
+/* ========================================
+   MOBILE RENDERING OPTIMIZATION - 2026-03
+   ======================================== */
+@media (max-width: 768px) {
+  main > section:not(.hero-section):not(.hero-about):not(.hero-contact):not(.service-hero) {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 920px;
+  }
+
+  .footer-main {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 640px;
+  }
+}
+
+@media (hover: none) {
+  .product-card:hover {
+    transform: none;
+  }
+
+  .product-card:hover .product-image {
+    transform: none;
+  }
+}
