@@ -24,25 +24,84 @@ class HeaderController {
   // Menu mobile hamburger
   setupMobileMenu() {
     const toggle = document.querySelector('.mobile-menu-toggle');
-    const menu = document.querySelector('.mobile-menu');
-    const overlay = document.querySelector('.mobile-menu-overlay');
-    const closeBtn = document.querySelector('.mobile-menu-close');
+    if (!toggle) return;
 
-    if (toggle && menu) {
-      toggle.addEventListener('click', () => {
-        menu.classList.add('active');
-        overlay?.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
+    const menuElements = this.ensureMobileMenuElements();
+    if (!menuElements) return;
 
-      closeBtn?.addEventListener('click', this.closeMobileMenu.bind(this));
-      overlay?.addEventListener('click', this.closeMobileMenu.bind(this));
+    this.mobileMenu = menuElements.menu;
+    this.mobileMenuOverlay = menuElements.overlay;
+    this.mobileMenuCloseBtn = menuElements.closeBtn;
+
+    toggle.addEventListener('click', () => {
+      this.mobileMenu?.classList.add('active');
+      this.mobileMenuOverlay?.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    this.mobileMenuCloseBtn?.addEventListener('click', this.closeMobileMenu.bind(this));
+    this.mobileMenuOverlay?.addEventListener('click', this.closeMobileMenu.bind(this));
+
+    this.mobileMenu?.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => this.closeMobileMenu());
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        this.closeMobileMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 992) {
+        this.closeMobileMenu();
+      }
+    });
+
+    window.addEventListener('pageshow', () => {
+      this.closeMobileMenu();
+    });
+  }
+
+  ensureMobileMenuElements() {
+    let menu = document.querySelector('.mobile-menu');
+    let overlay = document.querySelector('.mobile-menu-overlay');
+
+    if (!menu || !overlay) {
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = `
+        <div class="mobile-menu-overlay"></div>
+        <div class="mobile-menu">
+          <div class="mobile-menu-header">
+            <a href="index.html" class="header-logo">🔌 Tech<span>Store</span></a>
+            <button class="mobile-menu-close" aria-label="Chiudi menu">✕</button>
+          </div>
+          <nav class="mobile-menu-nav">
+            <a href="index.html" class="mobile-menu-link">🏠 Home</a>
+            <a href="catalogo.html" class="mobile-menu-link">🛍️ Catalogo</a>
+            <a href="catalogo.html?sale=true" class="mobile-menu-link">🏷️ Offerte</a>
+            <a href="account.html" class="mobile-menu-link">👤 Account</a>
+            <a href="carrello.html" class="mobile-menu-link">🛒 Carrello</a>
+            <a href="chi-siamo.html" class="mobile-menu-link">ℹ️ Chi Siamo</a>
+            <a href="contatti.html" class="mobile-menu-link">📞 Contatti</a>
+          </nav>
+        </div>
+      `;
+
+      const nodes = Array.from(wrapper.children);
+      document.body.append(...nodes);
+
+      menu = document.querySelector('.mobile-menu');
+      overlay = document.querySelector('.mobile-menu-overlay');
     }
+
+    const closeBtn = menu?.querySelector('.mobile-menu-close') || null;
+    return menu && overlay ? { menu, overlay, closeBtn } : null;
   }
 
   closeMobileMenu() {
-    const menu = document.querySelector('.mobile-menu');
-    const overlay = document.querySelector('.mobile-menu-overlay');
+    const menu = this.mobileMenu || document.querySelector('.mobile-menu');
+    const overlay = this.mobileMenuOverlay || document.querySelector('.mobile-menu-overlay');
     menu?.classList.remove('active');
     overlay?.classList.remove('active');
     document.body.style.overflow = '';

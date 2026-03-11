@@ -2748,3 +2748,185 @@
     max-width: none;
   }
 }
+
+/* ========================================
+   MOBILE HARDENING PACK - 2026-03
+   ======================================== */
+html,
+body {
+  overflow-x: clip;
+}
+
+@media (max-width: 991px) {
+  .mobile-menu-toggle,
+  .mobile-menu-close {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-menu {
+    width: min(84vw, 320px);
+    max-width: 320px;
+  }
+
+  .mobile-menu-nav a,
+  .mobile-menu-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .top-bar .container {
+    padding-left: 0.65rem;
+    padding-right: 0.65rem;
+  }
+
+  .top-bar-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.35rem;
+  }
+
+  .top-bar-links > div:first-child {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+    text-align: center;
+  }
+
+  .header-main .d-flex.align-items-center {
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .header-logo {
+    min-width: 0;
+    font-size: clamp(1.2rem, 0.98rem + 1.2vw, 1.55rem);
+    overflow-wrap: anywhere;
+  }
+
+  .header-actions {
+    gap: 0.25rem;
+  }
+
+  .header-action {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .header-action-icon {
+    font-size: 1.35rem;
+  }
+
+  .search-form {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .search-input {
+    border-radius: 14px;
+    min-height: 44px;
+    padding-right: 0.9rem;
+  }
+
+  .search-btn {
+    margin-left: 0;
+    min-height: 44px;
+    border-radius: 14px;
+    width: 100%;
+  }
+
+  .footer-contact-item,
+  .footer-links a {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 768px) {
+  a,
+  button,
+  .btn,
+  .form-check-input,
+  .header-action,
+  .wishlist-btn {
+    touch-action: manipulation;
+  }
+
+  .btn,
+  .form-control,
+  .form-select,
+  input,
+  select,
+  textarea {
+    min-height: 44px;
+  }
+
+  .form-check-input {
+    min-width: 20px;
+    min-height: 20px;
+  }
+
+  .container {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+
+  .breadcrumb {
+    flex-wrap: wrap;
+    row-gap: 0.25rem;
+  }
+
+  .section-title p,
+  p,
+  li {
+    overflow-wrap: anywhere;
+  }
+
+  .table-responsive,
+  .admin-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    padding-top: 2.4rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.7rem, 1.5rem + 1vw, 2.1rem);
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero-buttons .btn {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .catalog-section .d-flex.justify-content-between.align-items-center.mb-4.flex-wrap.gap-3 {
+    align-items: stretch !important;
+  }
+
+  #sort-select {
+    min-width: 0 !important;
+    width: 100%;
+  }
+
+  .product-card .card-body {
+    padding: 0.85rem;
+  }
+
+  .product-title {
+    min-height: auto;
+  }
+}
