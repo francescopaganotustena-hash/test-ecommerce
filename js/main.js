@@ -390,6 +390,85 @@ function setupImageFallbacks() {
   observer.observe(document.body, { childList: true, subtree: true });
 }
 
+function setupDeferredTracking() {
+  const config = window.TechStoreTrackingConfig;
+  if (!config || window.__techstoreTrackingInitialized) return;
+
+  const gaMeasurementId = String(config.gaMeasurementId || '').trim();
+  const fbPixelId = String(config.fbPixelId || '').trim();
+  const isPlaceholder = (value) => !value || /^[GX-]*X+$/i.test(value);
+  const hasGa = !isPlaceholder(gaMeasurementId);
+  const hasPixel = !isPlaceholder(fbPixelId);
+
+  if (!hasGa && !hasPixel) return;
+
+  window.__techstoreTrackingInitialized = true;
+  let started = false;
+  let timeoutId = null;
+  const listeners = [];
+
+  const loadScript = (src) => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = src;
+    document.head.appendChild(script);
+  };
+
+  const start = () => {
+    if (started) return;
+    started = true;
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+
+    listeners.forEach(({ type, handler }) => {
+      window.removeEventListener(type, handler);
+    });
+
+    if (hasGa) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', gaMeasurementId);
+      loadScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaMeasurementId)}`);
+    }
+
+    if (hasPixel) {
+      window.fbq = window.fbq || function fbq(){ fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments); };
+      if (!window._fbq) window._fbq = window.fbq;
+      window.fbq.push = window.fbq;
+      window.fbq.loaded = true;
+      window.fbq.version = '2.0';
+      window.fbq.queue = [];
+      window.fbq('init', fbPixelId);
+      window.fbq('track', 'PageView');
+      loadScript('https://connect.facebook.net/en_US/fbevents.js');
+    }
+  };
+
+  const scheduleStart = () => {
+    if (!started) {
+      timeoutId = window.setTimeout(start, 1200);
+    }
+  };
+
+  ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach((type) => {
+    const handler = () => scheduleStart();
+    listeners.push({ type, handler });
+    window.addEventListener(type, handler, { passive: true, once: true });
+  });
+
+  window.addEventListener('load', () => {
+    if (!started) {
+      timeoutId = window.setTimeout(start, 1800);
+    }
+  }, { once: true });
+
+  window.setTimeout(start, 9000);
+}
+
 // ============================================
 // FUNZIONI CARRELLO E LOGIN
 // ============================================
@@ -797,6 +876,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fallback immagini prodotto
   setupImageFallbacks();
+
+  // Tracking non critico (deferred)
+  setupDeferredTracking();
 
   // Inizializza pagina catalogo se presente
   if (document.getElementById('catalog-grid')) {
