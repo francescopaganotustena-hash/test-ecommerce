@@ -114,17 +114,46 @@ class UIComponents {
       .replaceAll("'", '&#39;');
   }
 
-  static sanitizeImageSrc(src) {
+  static normalizeImageSrc(src) {
     const value = String(src || '').trim();
+    if (!value) return '';
+
     if (
       value.startsWith('assets/') ||
       value.startsWith('./assets/') ||
       value.startsWith('../assets/') ||
-      value.startsWith('http://') ||
-      value.startsWith('https://') ||
       value.startsWith('data:image/')
     ) {
-      return this.escapeHtml(value);
+      return value;
+    }
+
+    if (/^https?:\/\//i.test(value)) {
+      try {
+        const parsedUrl = new URL(value, window.location.origin);
+        const normalizedPath = parsedUrl.pathname.replace(/^\/+/, '');
+
+        if (normalizedPath.startsWith('assets/')) {
+          return normalizedPath;
+        }
+
+        const assetsIndex = parsedUrl.pathname.toLowerCase().indexOf('/assets/');
+        if (assetsIndex >= 0) {
+          return parsedUrl.pathname.slice(assetsIndex + 1);
+        }
+      } catch (error) {
+        // Keep the original source when it is a valid remote URL.
+      }
+
+      return value;
+    }
+
+    return '';
+  }
+
+  static sanitizeImageSrc(src) {
+    const normalizedSource = this.normalizeImageSrc(src);
+    if (normalizedSource) {
+      return this.escapeHtml(normalizedSource);
     }
     return 'assets/images/products/placeholder-product.svg';
   }

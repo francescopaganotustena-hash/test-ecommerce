@@ -868,13 +868,44 @@ const categories = [
 ];
 
 function isAllowedImageSource(src) {
+  const normalizedSource = normalizeCatalogImageSource(src);
+  return Boolean(normalizedSource);
+}
+
+function normalizeCatalogImageSource(src) {
   const value = String(src || '').trim();
-  return (
+  if (!value) return '';
+
+  if (
     value.startsWith('assets/') ||
     value.startsWith('./assets/') ||
     value.startsWith('../assets/') ||
     value.startsWith('data:image/')
-  );
+  ) {
+    return value;
+  }
+
+  if (/^https?:\/\//i.test(value)) {
+    try {
+      const parsedUrl = new URL(value, window.location.origin);
+      const normalizedPath = parsedUrl.pathname.replace(/^\/+/, '');
+
+      if (normalizedPath.startsWith('assets/')) {
+        return normalizedPath;
+      }
+
+      const assetsIndex = parsedUrl.pathname.toLowerCase().indexOf('/assets/');
+      if (assetsIndex >= 0) {
+        return parsedUrl.pathname.slice(assetsIndex + 1);
+      }
+    } catch (error) {
+      // Fall through and keep the original source as a valid remote URL.
+    }
+
+    return value;
+  }
+
+  return '';
 }
 
 function isLikelyUrl(value) {
@@ -903,8 +934,13 @@ function getSafeProductName(product) {
 
 function normalizeProductImageFields(product) {
   const fallback = 'assets/images/products/placeholder-product.svg';
-  const mainImage = isAllowedImageSource(product.image) ? product.image : fallback;
-  const images = Array.isArray(product.images) ? product.images.filter(isAllowedImageSource) : [];
+  const normalizedMainImage = normalizeCatalogImageSource(product.image);
+  const mainImage = normalizedMainImage || fallback;
+  const images = Array.isArray(product.images)
+    ? product.images
+        .map((img) => normalizeCatalogImageSource(img))
+        .filter(Boolean)
+    : [];
 
   return {
     ...product,

@@ -248,13 +248,43 @@ class AdminProducts {
   }
 
   isAllowedCatalogImageSource(src) {
+    return Boolean(this.normalizeCatalogImageSource(src));
+  }
+
+  normalizeCatalogImageSource(src) {
     const value = String(src || '').trim();
-    return (
+    if (!value) return '';
+
+    if (
       value.startsWith('assets/') ||
       value.startsWith('./assets/') ||
       value.startsWith('../assets/') ||
       value.startsWith('data:image/')
-    );
+    ) {
+      return value;
+    }
+
+    if (/^https?:\/\//i.test(value)) {
+      try {
+        const parsedUrl = new URL(value, window.location.origin);
+        const normalizedPath = parsedUrl.pathname.replace(/^\/+/, '');
+
+        if (normalizedPath.startsWith('assets/')) {
+          return normalizedPath;
+        }
+
+        const assetsIndex = parsedUrl.pathname.toLowerCase().indexOf('/assets/');
+        if (assetsIndex >= 0) {
+          return parsedUrl.pathname.slice(assetsIndex + 1);
+        }
+      } catch (error) {
+        // Fall through and keep the original source as a valid remote URL.
+      }
+
+      return value;
+    }
+
+    return '';
   }
 
   isLikelyUrl(value) {
@@ -285,11 +315,12 @@ class AdminProducts {
   }
 
   normalizeProductImages(product) {
-    const normalizedImage = this.isAllowedCatalogImageSource(product.image)
-      ? String(product.image).trim()
-      : ADMIN_CONFIG.defaultImage;
+    const normalizedMainImage = this.normalizeCatalogImageSource(product.image);
+    const normalizedImage = normalizedMainImage || ADMIN_CONFIG.defaultImage;
     const normalizedImages = Array.isArray(product.images)
-      ? product.images.filter((img) => this.isAllowedCatalogImageSource(img))
+      ? product.images
+          .map((img) => this.normalizeCatalogImageSource(img))
+          .filter(Boolean)
       : [];
 
     return {
@@ -301,9 +332,9 @@ class AdminProducts {
   }
 
   sanitizeImageSrc(src) {
-    const value = String(src || '').trim();
-    if (this.isAllowedCatalogImageSource(value)) {
-      return this.escapeHtml(value);
+    const normalizedSource = this.normalizeCatalogImageSource(src);
+    if (normalizedSource) {
+      return this.escapeHtml(normalizedSource);
     }
     return ADMIN_CONFIG.defaultImage;
   }
