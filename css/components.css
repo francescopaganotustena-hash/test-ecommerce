@@ -2876,9 +2876,77 @@ body {
     padding-right: 0.8rem;
   }
 
+  .top-bar a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 0.35rem;
+  }
+
+  .header-logo {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer-links li {
+    margin-bottom: 0.25rem;
+  }
+
+  .footer-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.2rem 0;
+  }
+
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+
   .breadcrumb {
     flex-wrap: wrap;
     row-gap: 0.25rem;
+  }
+
+  .breadcrumb-item a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.1rem 0.2rem;
+  }
+
+  .product-title a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+  }
+
+  .quantity-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tab-btn,
+  .account-menu-item,
+  .order-actions .btn,
+  .order-detail-section .btn,
+  .service-links a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .pagination .page-link {
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .section-title p,
@@ -2928,5 +2996,14 @@ body {
 
   .product-title {
     min-height: auto;
+  }
+
+  .wishlist-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .top-bar {
+    font-size: 0.7rem;
   }
 }
