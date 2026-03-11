@@ -923,6 +923,11 @@ function isPlaceholderImage(value) {
   return src.includes('/placeholder-product.svg') || src.endsWith('placeholder-product.svg');
 }
 
+function getLocalImageByProductId(productId) {
+  const id = Number(productId) || 0;
+  return id > 0 ? `assets/images/products/p${id}.jpg` : '';
+}
+
 function getSafeProductName(product) {
   const rawName = String(product?.name || '').trim();
   if (rawName && !isLikelyUrl(rawName)) {
@@ -961,10 +966,13 @@ function normalizeProductImageFields(product) {
     : [];
 
   const meaningfulStoredImages = normalizedImages.filter((img) => !isPlaceholderImage(img));
+  const localImageById = normalizeCatalogImageSource(getLocalImageByProductId(productId));
 
   let mainImage = normalizedMainImage || '';
   if (!mainImage || isPlaceholderImage(mainImage)) {
-    if (defaultMainImage && !isPlaceholderImage(defaultMainImage)) {
+    if (localImageById) {
+      mainImage = localImageById;
+    } else if (defaultMainImage && !isPlaceholderImage(defaultMainImage)) {
       mainImage = defaultMainImage;
     } else if (meaningfulStoredImages.length) {
       mainImage = meaningfulStoredImages[0];
@@ -979,7 +987,9 @@ function normalizeProductImageFields(product) {
 
   let images = normalizedImages;
   if (!images.length || images.every((img) => isPlaceholderImage(img))) {
-    if (defaultMeaningfulImages.length) {
+    if (localImageById) {
+      images = [mainImage];
+    } else if (defaultMeaningfulImages.length) {
       images = [mainImage, ...defaultMeaningfulImages].filter(Boolean);
     }
   }

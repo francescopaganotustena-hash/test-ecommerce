@@ -296,6 +296,11 @@ class AdminProducts {
     return src.includes('/placeholder-product.svg') || src.endsWith('placeholder-product.svg');
   }
 
+  getLocalImageByProductId(productId) {
+    const id = Number(productId) || 0;
+    return id > 0 ? `assets/images/products/p${id}.jpg` : '';
+  }
+
   getSafeProductName(product) {
     const rawName = String(product?.name || '').trim();
     if (rawName && !this.isLikelyUrl(rawName)) {
@@ -341,10 +346,13 @@ class AdminProducts {
       : [];
 
     const meaningfulStoredImages = normalizedImages.filter((img) => !this.isPlaceholderImage(img));
+    const localImageById = this.normalizeCatalogImageSource(this.getLocalImageByProductId(productId));
 
     let normalizedImage = normalizedMainImage || '';
     if (!normalizedImage || this.isPlaceholderImage(normalizedImage)) {
-      if (canonicalMainImage && !this.isPlaceholderImage(canonicalMainImage)) {
+      if (localImageById) {
+        normalizedImage = localImageById;
+      } else if (canonicalMainImage && !this.isPlaceholderImage(canonicalMainImage)) {
         normalizedImage = canonicalMainImage;
       } else if (meaningfulStoredImages.length) {
         normalizedImage = meaningfulStoredImages[0];
@@ -359,7 +367,9 @@ class AdminProducts {
 
     let safeImages = normalizedImages;
     if (!safeImages.length || safeImages.every((img) => this.isPlaceholderImage(img))) {
-      if (canonicalMeaningfulImages.length) {
+      if (localImageById) {
+        safeImages = [normalizedImage];
+      } else if (canonicalMeaningfulImages.length) {
         safeImages = [normalizedImage, ...canonicalMeaningfulImages].filter(Boolean);
       }
     }
