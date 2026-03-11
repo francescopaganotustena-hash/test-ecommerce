@@ -2897,7 +2897,16 @@ body {
     display: inline-flex;
     align-items: center;
     min-height: 40px;
+    min-width: 40px;
     padding: 0.2rem 0;
+  }
+
+  .footer-social a {
+    min-width: 40px;
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .social-link {
@@ -2953,6 +2962,23 @@ body {
   p,
   li {
     overflow-wrap: anywhere;
+  }
+
+  .auth-section .password-toggle {
+    min-width: 40px;
+    min-height: 40px;
+    right: 4px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-section .d-flex.justify-content-between.align-items-center.mb-4 a,
+  .auth-section .text-center.mt-4.mb-0 a {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
   }
 
   .table-responsive,
