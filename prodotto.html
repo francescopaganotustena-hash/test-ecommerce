@@ -12,6 +12,7 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Bootstrap CSS -->
@@ -396,11 +397,11 @@
       // Render product details
       document.getElementById('product-details').innerHTML = `
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="${product.image}" alt="${product.name}" class="product-main-image" id="main-image">
+          <img src="${product.image}" alt="${product.name}" class="product-main-image" id="main-image" fetchpriority="high" decoding="async">
           ${product.images && product.images.length > 1 ? `
           <div class="product-thumbnails">
             ${product.images.map((img, i) => `
-              <img src="${img}" alt="Immagine ${i + 1}" class="${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this)">
+              <img src="${img}" alt="Immagine ${i + 1}" class="${i === 0 ? 'active' : ''}" loading="lazy" decoding="async" onclick="changeImage('${img}', this)">
             `).join('')}
           </div>
           ` : ''}
@@ -596,7 +597,7 @@
       const price = p.discount > 0 ? (p.price * (1 - p.discount/100)).toFixed(2) : p.price;
       return `
         <div class="card h-100">
-          <img src="${p.image}" class="card-img-top" alt="${p.name}" style="aspect-ratio:1; object-fit:cover;">
+          <img src="${p.image}" class="card-img-top" alt="${p.name}" loading="lazy" decoding="async" style="aspect-ratio:1; object-fit:cover;">
           <div class="card-body">
             <h5 class="card-title" style="font-size:0.9rem;">${p.name}</h5>
             <p class="text-primary fw-bold">€${price}</p>
