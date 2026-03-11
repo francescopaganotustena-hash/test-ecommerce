@@ -856,6 +856,12 @@ let products = [
 const defaultProductNameById = new Map(
   products.map((product) => [Number(product.id) || 0, String(product.name || '').trim()])
 );
+const defaultProductImageById = new Map(
+  products.map((product) => [Number(product.id) || 0, String(product.image || '').trim()])
+);
+const defaultProductImagesById = new Map(
+  products.map((product) => [Number(product.id) || 0, Array.isArray(product.images) ? [...product.images] : []])
+);
 
 // Categorie prodotti
 const categories = [
@@ -912,6 +918,11 @@ function isLikelyUrl(value) {
   return /^https?:\/\//i.test(String(value || '').trim());
 }
 
+function isPlaceholderImage(value) {
+  const src = String(value || '').trim().toLowerCase();
+  return src.includes('/placeholder-product.svg') || src.endsWith('placeholder-product.svg');
+}
+
 function getSafeProductName(product) {
   const rawName = String(product?.name || '').trim();
   if (rawName && !isLikelyUrl(rawName)) {
@@ -934,13 +945,48 @@ function getSafeProductName(product) {
 
 function normalizeProductImageFields(product) {
   const fallback = 'assets/images/products/placeholder-product.svg';
+  const productId = Number(product?.id) || 0;
+
+  const defaultMainImage = normalizeCatalogImageSource(defaultProductImageById.get(productId));
+  const defaultImages = (defaultProductImagesById.get(productId) || [])
+    .map((img) => normalizeCatalogImageSource(img))
+    .filter(Boolean);
+  const defaultMeaningfulImages = defaultImages.filter((img) => !isPlaceholderImage(img));
+
   const normalizedMainImage = normalizeCatalogImageSource(product.image);
-  const mainImage = normalizedMainImage || fallback;
-  const images = Array.isArray(product.images)
+  const normalizedImages = Array.isArray(product.images)
     ? product.images
         .map((img) => normalizeCatalogImageSource(img))
         .filter(Boolean)
     : [];
+
+  const meaningfulStoredImages = normalizedImages.filter((img) => !isPlaceholderImage(img));
+
+  let mainImage = normalizedMainImage || '';
+  if (!mainImage || isPlaceholderImage(mainImage)) {
+    if (defaultMainImage && !isPlaceholderImage(defaultMainImage)) {
+      mainImage = defaultMainImage;
+    } else if (meaningfulStoredImages.length) {
+      mainImage = meaningfulStoredImages[0];
+    } else if (defaultMeaningfulImages.length) {
+      mainImage = defaultMeaningfulImages[0];
+    }
+  }
+
+  if (!mainImage) {
+    mainImage = fallback;
+  }
+
+  let images = normalizedImages;
+  if (!images.length || images.every((img) => isPlaceholderImage(img))) {
+    if (defaultMeaningfulImages.length) {
+      images = [mainImage, ...defaultMeaningfulImages].filter(Boolean);
+    }
+  }
+
+  if (!images.length) {
+    images = [mainImage];
+  }
 
   return {
     ...product,

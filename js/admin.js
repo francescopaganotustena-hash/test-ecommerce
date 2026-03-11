@@ -291,6 +291,11 @@ class AdminProducts {
     return /^https?:\/\//i.test(String(value || '').trim());
   }
 
+  isPlaceholderImage(value) {
+    const src = String(value || '').trim().toLowerCase();
+    return src.includes('/placeholder-product.svg') || src.endsWith('placeholder-product.svg');
+  }
+
   getSafeProductName(product) {
     const rawName = String(product?.name || '').trim();
     if (rawName && !this.isLikelyUrl(rawName)) {
@@ -315,19 +320,59 @@ class AdminProducts {
   }
 
   normalizeProductImages(product) {
+    const productId = Number(product?.id) || 0;
+    const canonicalProduct = Array.isArray(window.TechStoreProducts?.products)
+      ? window.TechStoreProducts.products.find((p) => Number(p.id) === productId)
+      : null;
+
+    const canonicalMainImage = this.normalizeCatalogImageSource(canonicalProduct?.image);
+    const canonicalImages = Array.isArray(canonicalProduct?.images)
+      ? canonicalProduct.images
+          .map((img) => this.normalizeCatalogImageSource(img))
+          .filter(Boolean)
+      : [];
+    const canonicalMeaningfulImages = canonicalImages.filter((img) => !this.isPlaceholderImage(img));
+
     const normalizedMainImage = this.normalizeCatalogImageSource(product.image);
-    const normalizedImage = normalizedMainImage || ADMIN_CONFIG.defaultImage;
     const normalizedImages = Array.isArray(product.images)
       ? product.images
           .map((img) => this.normalizeCatalogImageSource(img))
           .filter(Boolean)
       : [];
 
+    const meaningfulStoredImages = normalizedImages.filter((img) => !this.isPlaceholderImage(img));
+
+    let normalizedImage = normalizedMainImage || '';
+    if (!normalizedImage || this.isPlaceholderImage(normalizedImage)) {
+      if (canonicalMainImage && !this.isPlaceholderImage(canonicalMainImage)) {
+        normalizedImage = canonicalMainImage;
+      } else if (meaningfulStoredImages.length) {
+        normalizedImage = meaningfulStoredImages[0];
+      } else if (canonicalMeaningfulImages.length) {
+        normalizedImage = canonicalMeaningfulImages[0];
+      }
+    }
+
+    if (!normalizedImage) {
+      normalizedImage = ADMIN_CONFIG.defaultImage;
+    }
+
+    let safeImages = normalizedImages;
+    if (!safeImages.length || safeImages.every((img) => this.isPlaceholderImage(img))) {
+      if (canonicalMeaningfulImages.length) {
+        safeImages = [normalizedImage, ...canonicalMeaningfulImages].filter(Boolean);
+      }
+    }
+
+    if (!safeImages.length) {
+      safeImages = [normalizedImage];
+    }
+
     return {
       ...product,
       name: this.getSafeProductName(product),
       image: normalizedImage,
-      images: normalizedImages.length ? normalizedImages : [normalizedImage]
+      images: safeImages
     };
   }
 
